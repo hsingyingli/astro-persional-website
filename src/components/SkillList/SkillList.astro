@@ -1,0 +1,34 @@
+---
+import type { Skill } from "../../../utils/types";
+import ProgressBar from "../ProgressBar.astro";
+import SkillItem from "./SkillItem.astro";
+
+interface Props {
+  skills: Array<Skill>;
+}
+
+const { skills } = Astro.props;
+---
+
+<div class="my-10">
+  <h1 class="text-3xl font-bold my-5 text-teal-500">Skills</h1>
+  <div class="mt-10 mb-20">
+    <h2 class="text-xl my-3">Web Development</h2>
+    <ProgressBar color="#FBD28D" progress={0.7} />
+    <h2 class="text-xl my-3">Machine Learning</h2>
+    <ProgressBar color="#81E6D9" progress={0.5} />
+    <h2 class="text-xl my-3">Devops</h2>
+    <ProgressBar color="#FBB6CD" progress={0.3} />
+  </div>
+  <div class="w-full grid grid-cols-1 sm:grid-cols-2 auto-rows-auto gap-8">
+    {
+      skills.map((skill) => {
+        return (
+          <div>
+            <SkillItem skill={skill} />
+          </div>
+        );
+      })
+    }
+  </div>
+</div>

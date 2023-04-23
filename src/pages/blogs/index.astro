@@ -1,0 +1,10 @@
+---
+import BlogList from "../../components/BlogList";
+import Layout from "../../layouts/Layout.astro";
+const blogs = await Astro.glob("./*.mdx");
+---
+
+<Layout title="Aaron Li - Blogs">
+  <h1 class="mb-4 text-3xl font-medium">Blogs</h1>
+  <BlogList blogs={blogs} client:load />
+</Layout>

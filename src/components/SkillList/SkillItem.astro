@@ -1,0 +1,19 @@
+---
+import type { Skill } from "../../../utils/types";
+interface Props {
+  skill: Skill;
+}
+
+const { skill } = Astro.props;
+---
+
+<Fragment>
+  <h1 class="text-xl mb-2">{skill.title}</h1>
+  <ul class="grid grid-cols-1 xs:grid-cols-2">
+    {
+      skill.tools.map((element) => {
+        return <li class="text-gray-500 mb-1">{element}</li>;
+      })
+    }
+  </ul>
+</Fragment>

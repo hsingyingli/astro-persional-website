@@ -1,0 +1,56 @@
+{
+  "skills": [
+    {
+      "title": "Machine Learning",
+      "tools": [
+        "Python",
+        "Pytorch",
+        "Numpy",
+        "Pandas",
+        "Sklearn",
+        "Matplotlib",
+        "Computer Vision",
+        "Time series",
+        "Meta learning"
+      ]
+    },
+    {
+      "title": "Frontend",
+      "tools": [
+        "HTML",
+        "CSS",
+        "SCSS",
+        "Webpack",
+        "Javascript",
+        "Typescript",
+        "React",
+        "Next",
+        "ChakraUI",
+        "Styled Component",
+        "Tailwind CSS"
+      ]
+    },
+    {
+      "title": "Backend",
+      "tools": [
+        "Node",
+        "Flask",
+        "Golang",
+        "Ruby on Rails",
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB"
+      ]
+    },
+    {
+      "title": "DevOps",
+      "tools": [
+        "Git Version Control",
+        "Docker",
+        "Kubernetes",
+        "Gitlab CICD",
+        "Jenkins CICD"
+      ]
+    }
+  ]
+}

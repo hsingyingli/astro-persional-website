@@ -1,0 +1,91 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "MicroService - ecommerce store",
+      "image": [
+        "/collection.jpeg"
+      ],
+      "description": "Simple ecommerce store app built with microservices-based architecture. Technical Stack includes golang(gin), react(nextjs, tailwindCSS), rabbitMQ, GRPC, and docker.",
+      "website": "https://github.com/hsingyingli/micro-service-ecommerce-store",
+      "source": "https://slack-clone-frontend-beige.vercel.app",
+      "stack": [
+        "Next",
+        "TailwindCSS",
+        "Golang",
+        "RabbitMQ",
+        "GRPC"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Slack Clone",
+      "image": [
+        "/slack-clone.png"
+      ],
+      "description": "This slack clone project provides token-based authentication and a real-time chat room. Users can create a workspace and invite other users to join.",
+      "website": "https://slack-clone-frontend-beige.vercel.app",
+      "source": "https://gitlab.com/hsingyingli/slack-clone-frontend",
+      "backend": "https://gitlab.com/hsingyingli/slack-clone-backend",
+      "stack": [
+        "React",
+        "Webpack",
+        "SCSS",
+        "Golang",
+        "AWS Elastic Beanstalk",
+        "AWS RDS",
+        "AWS ECR",
+        "Gitlab CICD"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Netflix Clone",
+      "image": [
+        "/netflix-clone.png"
+      ],
+      "description": "This netflix project provides token-based authentication. User can watch videos provided by youtube api.",
+      "website": "https://netflix-clone-frontend-rho.vercel.app/",
+      "source": "https://gitlab.com/hsingyingli/netflix-clone-frontend",
+      "backend": "https://gitlab.com/hsingyingli/netflix-clone-backend",
+      "stack": [
+        "Next.js",
+        "CSS module",
+        "Node.js",
+        "Typescript",
+        "Docker",
+        "Jenkins CICD"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Markdown Editor",
+      "image": [
+        "/md-editor.png"
+      ],
+      "description": "A Markdown Editor app using Next.js, Supabase, and TailwindCSS.",
+      "website": "https://hyl-md-notebook.vercel.app",
+      "source": "https://github.com/hsingyingli/hyl-md-notebook",
+      "stack": [
+        "Next.js",
+        "Supabase",
+        "TailwindCSS"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Travel Map",
+      "image": [
+        "/travel-map.png"
+      ],
+      "description": "Travel map app provides restaurants, attractions, and hotel searching services based on the given location.",
+      "website": "https://travel-map-rust.vercel.app/",
+      "source": "https://github.com/hsingyingli/travel-map",
+      "stack": [
+        "React",
+        "styled-components",
+        "google api"
+      ]
+    }
+  ]
+}

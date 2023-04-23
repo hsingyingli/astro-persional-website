@@ -1,0 +1,266 @@
+---
+layout: ../../layouts/BlogLayout.astro
+src: /md-editor.png
+title: AVL tree
+category: Algorithm
+date: 2017-01-01
+description: 
+---
+
+# {frontmatter.title}
+
+## Table of contents
+* [Test](#interface)
+
+# Github
+[github](https://github.com/hsingyingli/data-structure-and-algorithm/tree/main/bst/avl.go)
+
+# Structure
+```
+       parent
+         |    
+        node
+      /      \
+left node   right node
+```
+
+
+# what problem does AVL tree solve
+
+The cost of operations(Search, delete ...) may become O(n) for a skewed BST
+```
+       x
+        \
+         y
+          \ 
+           z
+            ....
+```
+If we make sure that the height of the tree remains O(log(n)) after every insertion and deletion, then we can guarantee an upper bound of O(log(n)) for all these operations. The height of an AVL tree is always O(log(n)) where n is the number of nodes in the tree.
+>  -2 < height(left) - height(right) < 2
+
+```
+      A   <- skew(A) = 1 - 3 = -2  (skewed BST)                   
+   /      \ 
+ B           C    <- skew(C) = 1 - 2 = -1 
+          /    \      
+         D      E
+                  \
+                   "F" <- new insertion
+     
+How to re-balancing the BST?  left rotate
+
+
+         C  <- skew(C) = 2 - 2 = 0
+      /     \
+    A        E
+  /   \       \
+B      D       F
+
+traversal:
+before: B, A, D, C, E, F
+After: B, A, D, C, E, F
+
+
+Case 2:
+
+      A   <- skew(A) = 1 - 3 = -2  (skewed BST)                   
+   /      \ 
+ B           C    <- skew(C) = 1 - 2 = 1
+          /    \      
+         D      E
+        /            
+      "F" <- new insertion
+     
+How to re-balancing the BST?  
+
+step1: rotateRight(C)
+
+
+      A
+   /      \ 
+ B           D  
+          /    \      
+         F      C
+                  \
+                   E 
+step2: rotateLeft(A)
+
+         D  <- skew(C) = 2 - 2 = 0
+      /     \
+    A        C
+  /   \       \
+B      F       E
+
+traversal:
+before: B, A, F, D, C, E
+After: B, A, F, D, C, E
+```
+
+
+
+# Interface
+
+* BuildAVL(root, value): construct self-balancing Binary Search Tree (AVL tree)
+* balancing(node): balance a BST
+* updating(node): update the height of node 
+* skew(node): return the skew value (height(left) - height(right))
+* rotateLeft(node): Left Rotation
+* rotateRight(node): Right Rotation 
+
+
+## BuildAVL(root, value)
+
+```go
+func BuildAVL(root *Node, value int) *Node {
+	if root == nil {
+		return &Node{value: value, size: 1} // place node to the leaf
+	}
+
+	if value > root.value {
+		root.right = BuildAVL(root.right, value)
+		root.right.parent = root
+	}
+
+	if value < root.value {
+		root.left = BuildAVL(root.left, value)
+		root.left.parent = root
+	}
+    
+    // calculate the height of the root
+	root.size = 1 + util.Max(height(root.right), height(root.left))
+    
+    // re-balancing the tree, and return the new root
+	return root.balancing()
+}
+```
+
+## balancing(node)
+```go
+func (node *Node) balancing() *Node {
+	skew := node.skew()
+    
+    // still balance
+	if skew < 2 && skew > -2 {
+		return node
+	}
+    
+	// right left rotate
+	if skew == -2 && node.right.skew() == 1 {
+		node.right = node.right.rotateRight()
+		return node.rotateLeft()
+	}
+
+	// left rotate
+	if skew == -2 && node.right.skew() == -1 {
+		return node.rotateLeft()
+	}
+
+	// right rotate
+	if skew == 2 && node.left.skew() == 1 {
+		return node.rotateRight()
+	}
+
+	// left  right rotate
+	if skew == 2 && node.left.skew() == -1 {
+		node.left = node.left.rotateLeft()
+		return node.rotateRight()
+	}
+
+	return node
+}
+
+```
+
+## updating(node)
+```
+      A  <- height = 4
+   /      \ 
+ B           C <- height = 3
+          /    \      
+  h:1 -> D      E <- height = 2
+                  \
+                   "F" <- <- height = 1
+                   
+    
+                     C   <- height = 3
+                  /     \
+height = 2 ->    A        E  <- height = 2
+               /   \       \
+             B      D       F
+    
+we only need to update the node and its parent till reach the root
+
+```
+
+
+
+```go
+func (node *Node) updating() {
+	if node == nil {
+		return
+	}
+
+	node.size = 1 + util.Max(height(node.right), height(node.left))
+	if node.parent != nil {
+		node.parent.updating()
+	}
+}
+
+```
+
+## skew(node)
+
+```go
+// skew(node): height(node.left) - height(node.right) => {-1, 0, +1}
+func (node *Node) skew() int {
+	return height(node.left) - height(node.right)
+}
+
+```
+
+## rotateLeft(node)
+
+```go
+func (node *Node) rotateLeft() *Node {
+	newRoot := node.right
+	children := newRoot.left
+
+	node.right = children
+	newRoot.left = node
+
+	newRoot.parent = node.parent
+	if children != nil {
+		children.parent = node
+	}
+
+	node.parent = newRoot
+
+	node.updating()
+
+	return newRoot
+}
+
+```
+
+## rotateRight(node)
+
+```go
+func (node *Node) rotateRight() *Node {
+	newRoot := node.left
+	children := newRoot.right
+
+	node.left = children
+	newRoot.right = node
+
+	newRoot.parent = node.parent
+	if children != nil {
+		children.parent = node
+	}
+	node.parent = newRoot
+
+	node.updating()
+	return newRoot
+}
+
+```

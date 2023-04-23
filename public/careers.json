@@ -1,0 +1,37 @@
+{
+  "careers":  [
+      {
+        "image": "yourator.png",
+        "href": "https://www.yourator.co/",
+        "company": "Yourator",
+        "date": "2023/04 ~ ",
+        "title": "Product Developer (Full Stack)",
+        "infoList": []
+      },
+      {
+        "image": "fju.png",
+        "href": "http://www3.csie.fju.edu.tw/layout/oneblue/vvindex.jsp",
+        "company": "Fu Jen Catholic University - CS",
+        "date": "2021/09 ~ 2022/09",
+        "title": "Master degree",
+        "infoList": [
+          "Teaching Assistant, Calculus, Data Structure, Database System, and Algorithm."
+          , "Published paper in 2021 IEEE International Conference on Systems, Man, and Cybernetics (SMC)."
+        ]
+      }, {
+        "image": "iis.png",
+        "href": "https://www.iis.sinica.edu.tw/zh/index.html",
+        "company": "Institute of Information Science, Academia Sinica.",
+        "date": "2021-07 ~ 2021-08",
+        "title": "Research Assistant",
+        "infoList": []
+    }, {
+      "image": "iis.png",
+      "href": "https://www.iis.sinica.edu.tw/zh/index.html",
+      "company": "Institute of Information Science, Academia Sinica.",
+      "date": "2020-07 ~ 2021-06",
+      "title": "Part-time Research Assistant",
+      "infoList": []
+    }
+  ]
+}
