@@ -5,6 +5,7 @@ interface Props {
 }
 
 const Card: React.FC<Props> = ({ blog }) => {
+
   return (
     <a href={blog.url}>
       <div>
