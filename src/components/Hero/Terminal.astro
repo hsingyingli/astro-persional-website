@@ -1,0 +1,30 @@
+---
+import TerminalLine from "./TerminalLine";
+import { Icon } from "astro-icon";
+---
+
+<div
+  class="max-w-2xl w-full aspect-square sm:aspect-video border-2 border-gray-200 rounded-lg bg-black animate-[open_0.2s_linear] overflow-hidden flex flex-col"
+>
+  <div>
+    <div class="flex gap-2 border-b-gray-100 border-b-2 py-2 px-1">
+      <div class="rounded-full w-4 aspect-square bg-red-500"></div>
+      <div class="rounded-full w-4 aspect-square bg-yellow-500"></div>
+      <div class="rounded-full w-4 aspect-square bg-green-500"></div>
+    </div>
+    <div class="flex gap-2 p-2">
+      <div class="w-6 h-6">
+        <Icon name="mdi:folder-open" />
+      </div>
+      Aaron ❯ Website ❯ greeting.mdx
+    </div>
+  </div>
+  <TerminalLine delay={800} client:load />
+  <div>
+    <span class="px-2 sm:px-4 bg-green-400 text-black font-medium">INSERT</span
+    ><span class="px-2 sm:px-4 bg-gray-500 text-black font-medium">main</span
+    ><span class="px-2 sm:px-4 bg-gray-200 text-black font-medium"
+      >greeting.mdx [+]</span
+    >
+  </div>
+</div>

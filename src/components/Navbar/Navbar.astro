@@ -1,6 +1,5 @@
 ---
 import { Icon } from "astro-icon";
-import ThemeToggleButton from "./ThemeToggleButton";
 import DropdownMenu from "./DropDownMenu";
 import type { NavItem } from "../../../utils/types";
 
@@ -22,7 +21,7 @@ const navItems: Array<NavItem> = [
 ---
 
 <nav
-  class="px-3 py-1 w-full fixed top-0 left-0 z-50 backdrop-blur text-black dark:text-white"
+  class="px-3 py-3 w-full fixed top-0 left-0 z-50 backdrop-blur text-black dark:text-white"
 >
   <div
     class="max-w-screen-lg mx-auto w-full flex gap-7 items-center justify-between"
@@ -77,7 +76,6 @@ const navItems: Array<NavItem> = [
             <Icon name="fa-brands:linkedin" />
           </a>
         </div>
-        <ThemeToggleButton client:load />
         <div class="md:hidden">
           <DropdownMenu navItems={navItems} client:load />
         </div>
