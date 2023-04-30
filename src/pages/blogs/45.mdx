@@ -1,0 +1,119 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /alg.jpeg
+title: 6. Trie
+category: Algorithm and Data Structure 
+date: 2023-01-18 13:05:08.618+00 
+---
+
+
+> Trie is a type of k-ary search tree used for storing and searching a specific key from a set
+
+
+
+## Structure
+```go
+type Node struct {
+    dict map[byte]&Node
+}
+```
+
+```
+# notion:  { key in dict | end }
+
+input:  cap
+    
+                root
+            {  c  | false }
+             /
+        node
+    {  a  | false }
+      /
+    node
+{ p | true }
+
+input: cape
+
+                        root
+                    {  c  | false }
+                     /
+                node
+            {  a  | false }
+              /
+            node
+        { p | true }
+         /
+      node
+   { e | true}
+   
+input: cat
+
+                        root
+                    {  c  | false }
+                     /
+                node
+            {  a. | false }
+              /  \  
+            node  node
+    { p | true }  { t | true}
+         /
+      node
+   { e | true}
+
+
+input: dog
+
+                        root
+                    {  c        d    | false }
+                     /            \
+                node               node
+            {  a. | false }       { o | false}
+              /  \                   \
+            node  node                node
+    { p | true }  { t | true}       {g | true }
+         /
+      node
+   { e | true}
+
+
+```
+
+## Insert and Find
+
+```go
+func (node *Node) Insert(str string) {
+	character := []byte(str)
+
+	current := node
+	for _, c := range character {
+		next, ok := current.dict[c]
+		if !ok {
+			next = &Node{
+				dict: make(map[byte]*Node),
+				end:  false,
+			}
+			current.dict[c] = next
+		}
+
+		current = next
+	}
+
+	current.end = true
+}
+
+func (node *Node) Find(str string) bool {
+	character := []byte(str)
+	current := node
+
+	for _, c := range character {
+		next, ok := current.dict[c]
+
+		if !ok {
+			return false
+		}
+		current = next
+	}
+	return current.end
+}
+
+```

@@ -1,0 +1,73 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 21. Merge Two Sorted Lists
+category: Leetcode 
+date: 2022-10-22 09:02:24.031+00 
+---
+
+# Description
+***Easy***
+```
+You are given the heads of two sorted linked lists list1 and list2.
+
+Merge the two lists in a one sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Return the head of the merged linked list.
+```
+# TypeScript
+```typescript
+function mergeTwoLists(list1: ListNode | null, list2: ListNode | null): ListNode | null {
+    if (!list1) return list2
+    if (!list2) return list1 
+
+    if (list1.val < list2.val) {
+        list1.next = mergeTwoLists(list1.next, list2)
+        return list1
+    }
+    list2.next = mergeTwoLists(list1, list2.next)
+    return list2
+};
+```
+
+# Python3
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        if list1 is None: return list2 
+        if list2 is None: return list1 
+        
+        if (list1.val < list2.val):
+           list1.next = self.mergeTwoLists(list1.next, list2)
+           return list1
+
+        list2.next = self.mergeTwoLists(list1, list2.next)
+        return list2
+```
+# Golang
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {
+    if list1 == nil {return list2}
+    if list2 == nil {return list1}
+    
+    if list1.Val < list2.Val {
+        list1.Next = mergeTwoLists(list1.Next, list2)
+        return list1
+    }
+    
+    list2.Next = mergeTwoLists(list2.Next, list1)
+    return list2
+}
+```

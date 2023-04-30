@@ -1,266 +1,61 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-src: /alg.jpeg
-title: AVL tree
-category: Algorithm
-date: 2017-01-01
-description: 
+layout: ../../layouts/BlogLayout.astro 
+src: /js.jpeg
+title: Closure
+category: Javascript 
+date: 2022-10-11 
 ---
+> 閉包（Closure）是函式以及該函式被宣告時所在的詞法環境（lexical environment）的組合。
+在JavaScript 中，每個運行的函數，代碼塊 \{...\} 以及整份程式碼，都有一個被稱為 詞法環境（Lexical Environment）的內部（隱藏）的關聯對象。
 
-# {frontmatter.title}
+## lexical environment
+lexical environment由兩部分組成：
+1. Environment Record: 一個存儲所有局部變量作為其屬性（包括一些其他資料，例如 this 的值）的物件。
+2. 對外部lexical environment 的引用
 
-## Table of contents
-* [Test](#interface)
-
-# Github
-[github](https://github.com/hsingyingli/data-structure-and-algorithm/tree/main/bst/avl.go)
-
-# Structure
+* 變數宣告
+當程式剛執行時 let變數換先被宣告成uninitialized的狀態，直到真正宣告後才能被使用
+```javascript
+//      code            ->  lexical environment.   -> outer lexical environment
+// execution start.     ->  foo: <uninitialized>.  -> null
+let foo = 1           //->  foo: 1
+foo = 2               //->  foo: 2
 ```
-       parent
-         |    
-        node
-      /      \
-left node   right node
-```
-
-
-# what problem does AVL tree solve
-
-The cost of operations(Search, delete ...) may become O(n) for a skewed BST
-```
-       x
-        \
-         y
-          \ 
-           z
-            ....
-```
-If we make sure that the height of the tree remains O(log(n)) after every insertion and deletion, then we can guarantee an upper bound of O(log(n)) for all these operations. The height of an AVL tree is always O(log(n)) where n is the number of nodes in the tree.
->  -2 < height(left) - height(right) < 2
-
-```
-      A   <- skew(A) = 1 - 3 = -2  (skewed BST)                   
-   /      \ 
- B           C    <- skew(C) = 1 - 2 = -1 
-          /    \      
-         D      E
-                  \
-                   "F" <- new insertion
-     
-How to re-balancing the BST?  left rotate
-
-
-         C  <- skew(C) = 2 - 2 = 0
-      /     \
-    A        E
-  /   \       \
-B      D       F
-
-traversal:
-before: B, A, D, C, E, F
-After: B, A, D, C, E, F
-
-
-Case 2:
-
-      A   <- skew(A) = 1 - 3 = -2  (skewed BST)                   
-   /      \ 
- B           C    <- skew(C) = 1 - 2 = 1
-          /    \      
-         D      E
-        /            
-      "F" <- new insertion
-     
-How to re-balancing the BST?  
-
-step1: rotateRight(C)
-
-
-      A
-   /      \ 
- B           D  
-          /    \      
-         F      C
-                  \
-                   E 
-step2: rotateLeft(A)
-
-         D  <- skew(C) = 2 - 2 = 0
-      /     \
-    A        C
-  /   \       \
-B      F       E
-
-traversal:
-before: B, A, F, D, C, E
-After: B, A, F, D, C, E
-```
-
-
-
-# Interface
-
-* BuildAVL(root, value): construct self-balancing Binary Search Tree (AVL tree)
-* balancing(node): balance a BST
-* updating(node): update the height of node 
-* skew(node): return the skew value (height(left) - height(right))
-* rotateLeft(node): Left Rotation
-* rotateRight(node): Right Rotation 
-
-
-## BuildAVL(root, value)
-
-```go
-func BuildAVL(root *Node, value int) *Node {
-	if root == nil {
-		return &Node{value: value, size: 1} // place node to the leaf
-	}
-
-	if value > root.value {
-		root.right = BuildAVL(root.right, value)
-		root.right.parent = root
-	}
-
-	if value < root.value {
-		root.left = BuildAVL(root.left, value)
-		root.left.parent = root
-	}
-    
-    // calculate the height of the root
-	root.size = 1 + util.Max(height(root.right), height(root.left))
-    
-    // re-balancing the tree, and return the new root
-	return root.balancing()
+* 函數宣告
+當程式剛執行時，函數會最先被初始化
+```javascript
+//      code            ->  lexical environment.   -> outer lexical environment
+// execution start.     ->  foo1: <uninitialized>.  -> null
+//                          foo2: function
+let foo1               //->  foo1: undefined
+foo1 = 2               //->  foo1: 2
+function foo2() {
+    let v = 1
 }
 ```
+接著再細看 foo2
+```javascript
+...
+//      code            ->  lexical environment.   -> outer lexical environment
+function foo2() {     //-> v: <uninitialized> -> {foo1: 2, foo2: function}. -> null
+    let v = 1        // -> v: 1
+}
+...
+```
+***當要訪問一個變量時首先會搜索內部詞法環境，然後搜索外部環境，然後搜索更外部的環境，以此類推，直到全局詞法環境***
 
-## balancing(node)
-```go
-func (node *Node) balancing() *Node {
-	skew := node.skew()
-    
-    // still balance
-	if skew < 2 && skew > -2 {
-		return node
-	}
-    
-	// right left rotate
-	if skew == -2 && node.right.skew() == 1 {
-		node.right = node.right.rotateRight()
-		return node.rotateLeft()
-	}
+## Closure 例子
 
-	// left rotate
-	if skew == -2 && node.right.skew() == -1 {
-		return node.rotateLeft()
-	}
-
-	// right rotate
-	if skew == 2 && node.left.skew() == 1 {
-		return node.rotateRight()
-	}
-
-	// left  right rotate
-	if skew == 2 && node.left.skew() == -1 {
-		node.left = node.left.rotateLeft()
-		return node.rotateRight()
-	}
-
-	return node
+```javascript
+function foo1(x) {
+  return foo2(y) {
+    return x + y;
+  };
 }
 
-```
+var add5 = foo1(5);
+var add10 = foo1(10);
 
-## updating(node)
-```
-      A  <- height = 4
-   /      \ 
- B           C <- height = 3
-          /    \      
-  h:1 -> D      E <- height = 2
-                  \
-                   "F" <- <- height = 1
-                   
-    
-                     C   <- height = 3
-                  /     \
-height = 2 ->    A        E  <- height = 2
-               /   \       \
-             B      D       F
-    
-we only need to update the node and its parent till reach the root
-
-```
-
-
-
-```go
-func (node *Node) updating() {
-	if node == nil {
-		return
-	}
-
-	node.size = 1 + util.Max(height(node.right), height(node.left))
-	if node.parent != nil {
-		node.parent.updating()
-	}
-}
-
-```
-
-## skew(node)
-
-```go
-// skew(node): height(node.left) - height(node.right) => {-1, 0, +1}
-func (node *Node) skew() int {
-	return height(node.left) - height(node.right)
-}
-
-```
-
-## rotateLeft(node)
-
-```go
-func (node *Node) rotateLeft() *Node {
-	newRoot := node.right
-	children := newRoot.left
-
-	node.right = children
-	newRoot.left = node
-
-	newRoot.parent = node.parent
-	if children != nil {
-		children.parent = node
-	}
-
-	node.parent = newRoot
-
-	node.updating()
-
-	return newRoot
-}
-
-```
-
-## rotateRight(node)
-
-```go
-func (node *Node) rotateRight() *Node {
-	newRoot := node.left
-	children := newRoot.right
-
-	node.left = children
-	newRoot.right = node
-
-	newRoot.parent = node.parent
-	if children != nil {
-		children.parent = node
-	}
-	node.parent = newRoot
-
-	node.updating()
-	return newRoot
-}
-
+console.log(add5(2));  // 7
+console.log(add10(2)); // 12
 ```

@@ -1,0 +1,65 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 724. Find Pivot Index
+category: Leetcode 
+date: 2023-04-24 14:51:29.533+00 
+---
+
+# TypeScript
+```typescript
+function pivotIndex(nums: number[]): number {
+    let leftSum: number = 0
+    let rightSum: number = 0
+
+    for (let i: number = 0 ; i < nums.length; i++) {
+        rightSum += nums[i]
+    }
+
+    for (let idx: number = 0 ; idx < nums.length; idx++) {
+        let currNum = nums[idx]
+        rightSum -= currNum
+        if (leftSum === rightSum) return idx 
+        leftSum += currNum
+    }
+
+    return -1
+};
+```
+
+# Golang
+```go
+func pivotIndex(nums []int) int {
+    leftSum := 0
+    rightSum := 0
+    for i := 0 ; i < len(nums) ; i++ {
+        rightSum += nums[i]
+    }
+
+    for i := 0 ; i < len(nums) ; i++ {
+        currNum := nums[i]
+        rightSum -= currNum
+        if leftSum == rightSum {
+            return i 
+        }
+        leftSum += currNum
+    }
+    return -1
+}
+```
+
+# python3
+```python
+class Solution:
+    def pivotIndex(self, nums: List[int]) -> int:
+        leftSum = 0
+        rightSum = sum(nums)
+
+        for i in range(0, len(nums)):
+            currNum = nums[i]
+            rightSum -= currNum
+            if (leftSum == rightSum): return i
+            leftSum += currNum
+        
+        return -1
+```

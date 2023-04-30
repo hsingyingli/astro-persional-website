@@ -1,0 +1,145 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 918. Maximum Sum Circular Subarray
+category: Leetcode 
+date: 2022-10-25 12:32:34.575+00 
+---
+
+
+# Description
+***Medium***
+```
+Given a circular integer array nums of length n, return the maximum possible sum of a non-empty subarray of nums.
+
+A circular array means the end of the array connects to the beginning of the array. Formally, the next element of nums[i] is nums[(i + 1) % n] and the previous element of nums[i] is nums[(i - 1 + n) % n].
+
+A subarray may only include each element of the fixed buffer nums at most once. Formally, for a subarray nums[i], nums[i + 1], ..., nums[j], there does not exist i <= k1, k2 <= j with k1 % n == k2 % n.
+```
+
+# TypeScript
+
+```typescript
+function maxSubarraySumCircular(nums: number[]): number {
+    let sum: number = nums.reduce((a, b) => a + b, 0)
+    let maxValue = maxSubarray(nums)
+    let minValue = minSubarray(nums)
+
+    if (sum === minValue) return maxValue
+    return Math.max(maxValue, sum - minValue)
+};
+
+
+function maxSubarray(nums: number[]): number {
+    let globalMax: number = nums[0]
+    let sum: number = nums[0]
+
+    for (let i:number = 1 ; i < nums.length ; i++) {
+        const num = nums[i]
+        sum = Math.max(num, sum + num)
+        globalMax = Math.max(globalMax, sum)
+    }
+    return globalMax
+}
+
+function minSubarray(nums: number[]): number {
+    let globalMin: number = nums[0]
+    let sum: number = nums[0]
+
+    for (let i:number = 1 ; i < nums.length ; i++) {
+        const num = nums[i]
+        sum = Math.min(num, sum + num)
+        globalMin = Math.min(globalMin, sum)
+    }
+    return globalMin
+}
+```
+
+# Python3
+```python
+class Solution:
+    def maxSubarraySumCircular(self, nums: List[int]) -> int:
+        res1 = self.max_subarray(nums) 
+        res2 = self.min_subarray(nums)
+        total = sum(nums)
+        
+        if total == res2:
+            return res1
+        
+        return max(res1, total-res2) 
+         
+        
+    
+    def max_subarray(self, nums):
+        dp = nums[0]
+        global_max = dp
+         
+        for i in range(1, len(nums)):
+            dp = max(0, dp) + nums[i]
+            global_max = max(global_max, dp)
+        return global_max
+        
+    def min_subarray(self, nums):
+        dp = nums[0]
+        global_min = dp
+         
+        for i in range(1, len(nums)):
+            dp = min(0, dp) + nums[i]
+            global_min = min(global_min, dp)
+            
+        return global_min
+```
+
+# Golang
+```go
+func maxSubarraySumCircular(nums []int) int {
+    minValue := minSubarray(nums)
+    maxValue := maxSubarray(nums)
+    sum := 0
+
+    for _, num := range nums {
+        sum += num
+    }
+
+    if sum == minValue {
+        return maxValue
+    }
+
+    return max(maxValue, sum - minValue)
+}
+
+func maxSubarray(nums []int) int {
+    globalMax := nums[0]
+    sum := nums[0]
+    for _, num := range nums[1:] {
+        sum = max(num, sum + num)
+        globalMax = max(globalMax, sum)
+    }
+    return globalMax
+}
+
+func minSubarray(nums []int) int {
+    globalMin := nums[0]
+    sum := nums[0]
+    for _, num := range nums[1:] {
+        sum = min(num, sum + num)
+        globalMin = min(globalMin, sum)
+    }
+    return globalMin
+}
+
+
+func max(num1 int, num2 int) int{
+    if num1 > num2 {
+        return num1
+    }
+    return num2
+}
+
+func min(num1 int, num2 int) int{
+    if num1 < num2 {
+        return num1
+    }
+    return num2
+}
+```

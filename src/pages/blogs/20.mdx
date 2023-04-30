@@ -1,0 +1,97 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 589. N-ary Tree Preorder Traversal
+category: Leetcode 
+date: 2022-10-25 05:40:28.992+00 
+---
+
+
+# Description
+
+***Easy***
+```
+Given the root of an n-ary tree, return the preorder traversal of its nodes' values.
+
+Nary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)
+```
+
+# TypeScript
+
+```typescript
+/**
+ * Definition for node.
+ * class Node {
+ *     val: number
+ *     children: Node[]
+ *     constructor(val?: number) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.children = []
+ *     }
+ * }
+ */
+
+function preorder(root: Node | null): number[] {
+    let ans : number[] = []
+    if (root === null) {
+        return ans
+    }
+    ans.push(root.val)
+
+    for (let i: number = 0 ; i < root.children.length ; i++) {
+        let value: number[] = preorder(root.children[i])
+        ans = ans.concat(value);
+    }
+
+    return ans
+};
+```
+
+# Python3
+```python
+"""
+# Definition for a Node.
+class Node:
+    def __init__(self, val=None, children=None):
+        self.val = val
+        self.children = children
+"""
+
+class Solution:
+    def preorder(self, root: 'Node') -> List[int]:
+        ans = []
+        if root is None:
+            return ans 
+
+        ans.append(root.val)
+
+        for children in root.children:
+            values = self.preorder(children)
+            ans.extend(values)
+
+        return ans
+```
+
+# Golang 
+```go
+/**
+ * Definition for a Node.
+ * type Node struct {
+ *     Val int
+ *     Children []*Node
+ * }
+ */
+
+func preorder(root *Node) []int {
+    ans := []int{}
+    if root == nil {
+        return ans
+    }
+    ans = append(ans, root.Val)
+    for _, children := range root.Children {
+        values := preorder(children)
+        ans = append(ans, values...)
+    }
+    return ans
+}
+```

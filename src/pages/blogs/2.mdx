@@ -1,80 +1,95 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-src: /leetcode.jpeg
-title: 55. Jump Game
-category: Leetcode
-date: 2017-01-01
+layout: ../../layouts/BlogLayout.astro 
+src: /js.jpeg
+title: Promise
+category: Javascript 
+date: 2022-10-11 13:01:08.424+00 
 ---
 
-# {frontmatter.title}
+> Promise 是 ES6 裡所提出的，透過其提供的內建方法包含 all, race, resolve, reject 等來處理非同步
 
-## Table of contents
-* [Description](#description)
-* [TypeScript](#typescript)
-* [Golang](#golang)
-
-# Description
-***Medium***
+Promise 對象的構造器（constructor）語法如下：
+```javascript
+let promise = new Promise(function(resolve, reject) {
+  // executor
+});
 ```
-You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+* resolve(value): 如果執行成功完成並帶有結果value。
+* reject(error): 如果出現了error，error即為error對象。
 
-Return true if you can reach the last index, or false otherwise.
-```
-# TypeScript
-```typescript
-function canJump(nums: number[]): boolean {
-    let current: number = 0
-    let next: number = 0
+> 當new Promise 被宣告，executor會自動執行。如果執行成功則調用resolve，如果出現error則調用reject。
 
-    while (current <= next) {
-        next = Math.max(next, current + nums[current])
-        if (next >= nums.length-1) {
-            return true
-        }
-        current++
-    }
-    return false
-};
+由 new Promise 構造器返回的 promise 對象具有以下內部屬性：
+1. state—— 最初是"pending"，然後在 resolve 被調用時變為"fulfilled"，或者在 reject 被調用時變為"rejected"。
+2. result—— 最初是undefined，然後在 resolve(value) 被調用時變為value，或者在 reject(error) 被調用時變為error。
+
+***executor 只能調用一個 resolve或一個reject***
+```javascript
+let promise = new Promise(function(resolve, reject) {
+  resolve("done");
+
+  reject(new Error("…")); // ignore
+});
 ```
 
-# Python3
-```python
-class Solution:
-    def canJump(self, nums: List[int]) -> bool:
-        curr = 0 
-        next = 0 
-        
-        while(curr <= next):
-            next = max(next, curr + nums[curr])
-            
-            if next >= len(nums)-1:
-                return True
-            
-            curr += 1
-            
-        return False
+## then, catch
+
+### then
+* 第一個參數函式是當promise resolve時執行
+* 第二個參數函式是當promise reject時執行
+```javascript
+promise.then(
+  function(result) { /* handle a successful result */ },
+  function(error) { /* handle an error */ }
+);
 ```
 
-# Golang
-```go
-func canJump(nums []int) bool {
-    current := 0
-    next := 0
+### catch 
+如果需要對error處理時
+```javascript
+promise.catch( (error) => {...})
+```
 
-    for current <= next {
-        next = max(next, current+nums[current])
-        if next >= len(nums) - 1 {
-            return true
-        }
-        current++
-    }
-    return false
-}
+## Promise. all, race, any, 
 
-func max(num1 int, num2 int) int {
-    if num1 > num2 {
-        return num1 
-    }
-    return num2
-}
+### Promise.all 
+```javascript
+let promise = Promise.all(iterable);
+```
+***執行多個promise，並等待所有promise，若promise reject則結果為此reject的error***
+
+```javascript
+Promise.all([
+    new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+    new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+    new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
+    ]).then((value) => console.log(value));
+// output: [1, 2, 3]
+
+Promise.all([
+    new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+    new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+    new Promise((resolve, reject) => setTimeout(() => reject(new Error('error')), 1000))  // 3
+    ]).then((value) => console.log(value));
+// output: Error: error
+```
+### Promise.race
+***只等待第一個settled 的promise 並獲取其結果***
+```javascript
+Promise.race([
+    new Promise(resolve => setTimeout(() => resolve(1), 3000)), // 1
+    new Promise(resolve => setTimeout(() => resolve(2), 2000)), // 2
+    new Promise(resolve => setTimeout(() => resolve(3), 1000))  // 3
+    ]).then((value) => console.log(value));
+// output: 3
+```
+### Promise.any
+***Promise.any只等待第一個fulfilled的promise，並將這個fulfilled 的promise 返回。如果給出的promise 都rejected，那麼返回的promise 會帶有AggregateError***
+```javascript
+Promise.any([
+  new Promise((resolve, reject) => setTimeout(() => reject(new Error("Whoops!")), 1000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(1), 2000)),
+  new Promise((resolve, reject) => setTimeout(() => resolve(3), 3000))
+]).then((v) => console.log(v));
+// output 1
 ```

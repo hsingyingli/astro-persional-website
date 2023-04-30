@@ -1,0 +1,138 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /alg.jpeg
+title: 3. Sorting Algorithm
+category: Algorithm and Data Structure 
+date: 2022-12-27 11:06:27.893+00 
+---
+
+# Github
+[Github](https://github.com/hsingyingli/data-structure-and-algorithm/tree/main/sorting)
+
+# 目錄
+1. Insertion sort
+2. Selection sort
+3. Bubble sort
+4. Merge sort
+5. Quick Sort
+6. Heap sort
+ 
+
+# Insertion sort
+> 逐一將要排序的資料插入已排序好的序列中
+
+```
+notion: 
+    [ sorted array | unsorted array]
+    [ "a" ] : target
+    
+example
+given array: [5, 3, 4, 6, 1]
+
+1. 3 < 5 :  
+    swap(array, 0, 1)
+        => ["3", 5 | 4, 6, 1]
+2. 4 < 5 :
+    swap(array, 2, 1)
+        => [3, "4", 5 | 6, 1]
+3. 6 > 5 :
+        => [3, 4, 5, 6 | 1]
+4. 1 < 6 :
+    swap(array, 4, 3)
+        => [3, 4, 5, "1", 6]
+   1 < 5 :
+    swap(array, 3, 2)
+        => [3, 4, "1", 5, 6]
+   1 < 4 :
+    swap(array, 2, 1)
+        => [3, "1", 4, 5, 6]
+   1 < 3 :
+    swap(array, 1, 0)
+        => ["1", 3, 4, 5, 6]
+finish
+```
+
+```go
+func insertionSort(array []int) []int {
+	for i := 1; i < len(array); i++ {
+		j := i - 1
+		target := array[i]
+		for j >= 0 && target < array[j] {
+			array[j+1] = array[j]
+			j--
+		}
+		array[j+1] = target
+	}
+	return array
+}
+```
+# Selection sort
+> 將array分成排序好的和未排序好的array，逐一將未排序好的array的最大（最小）值換到未排序好的array的最後面
+
+```
+notion: 
+    [ sorted array | unsorted array]
+    [ "a" ] : max
+    
+example
+given array: [5, 3, 4, 6, 1]
+
+1. max value: 6
+    => [5, 3, 4, 1 | 6]
+2. max value: 5
+    => [3, 4, 1 | 5, 6]
+3. max value: 4
+    => [3, 1 | 4, 5, 6]
+4. max value: 3
+    => [1, 3, 4, 5, 6]
+    
+finish
+```
+```go
+func prefixMax(array []int, i int) int {
+	if i > 0 {
+		j := prefixMax(array, i-1)
+		if array[j] > array[i] {
+			return j
+		}
+	}
+	return i
+}
+
+func sort(array []int, i int) {
+	if i > 0 {
+		j := prefixMax(array, i)
+		array[i], array[j] = array[j], array[i]
+		sort(array[:], i-1)
+	}
+}
+
+func selectionSort(array []int) []int {
+	sort(array[:], len(array)-1)
+	return array
+}
+
+```
+
+# Bubble sort
+> 每一輪從 unsorted array index 0 開始往後兩兩相比較，將較大（小）的往後交換，每一輪都將最大的值換到 unsorted array 後面，當一輪內沒交換過則代表排序完畢
+```
+notion: 
+    [ sorted array | unsorted array]
+    [ "a, b" ] : comparision
+    
+example
+given array: [5, 3, 4, 6, 1]
+
+1. ["5, 3", 4, 6, 1] => 5 > 3
+    swap(array, 1, 0)
+        => [3, 5, 4, 6, 1]
+2. [3, "5, 4", 6, 1] => 5 > 4
+    swap(array, 2, 1)
+        => [3, 4, 5, 6, 1]
+3. [3, 4, "5, 6", 1] => 6 > 5
+    do nothing
+        => [3, 4, 5, 6, 1]
+4. [3, 4, 5, "6, 1"] => 6 > 1
+    swap(array, 4, 3)
+        => [3, 4, 5, 1, 6]

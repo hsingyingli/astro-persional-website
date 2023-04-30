@@ -1,0 +1,71 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 70. Climbing Stairs
+category: Leetcode 
+date: 2022-10-29 06:07:51.032+00 
+---
+
+# Description
+***Medium***
+```
+You are climbing a staircase. It takes n steps to reach the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+```
+
+# TypeScript
+```typescript
+function climbStairs(n: number): number {
+    if (n === 1 || n === 2) return n
+
+    let dp: number[] = [1, 2]
+
+    for (let i: number = 3 ; i < n ; i++) {
+        if (i % 2 == 1) {
+            dp[0] = dp[0] + dp[1]
+        } else {
+            dp[1] = dp[0] + dp[1]
+        }
+    }
+    return dp[0] + dp[1]
+};
+```
+
+# Python3
+```python
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if (n == 1 or n == 2) :
+            return n
+        
+        dp = [1, 2]
+         
+        for i in range(3, n):
+            if i % 2 == 1 :
+                dp[0] = dp[0] + dp[1]
+            else:
+                dp[1] = dp[0] + dp[1]
+
+        return dp[0] + dp[1]
+```
+
+# Golang
+```go
+func climbStairs(n int) int {
+    if n == 1 || n == 2 {
+        return n
+    }
+    dp := [2]int{1, 2}
+    
+
+    for i := 3 ; i < n ; i++ {
+        if i % 2 == 1 {
+            dp[0] = dp[0] + dp[1]
+        } else {
+            dp[1] = dp[0] + dp[1]
+        }
+    }
+    return dp[0] + dp[1]
+}
+```

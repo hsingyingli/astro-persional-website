@@ -1,73 +1,70 @@
 ---
-layout: ../../layouts/BlogLayout.astro
-src: /leetcode.jpeg
-title: 724. Find Pivot Index
-category: Leetcode
-date: 2017-01-01
+layout: ../../layouts/BlogLayout.astro 
+src: /js.jpeg
+title: event loop
+category: Javascript 
+date: 2022-10-13 04:27:55.054+00 
 ---
 
-# {frontmatter.title}
 
-## Table of contents
-* [TypeScript](#typescript)
-* [Golang](#golang)
-* [Python](#python)
+> Javascript 是單線程序（single-threaded），一次只能執行一件任務。當有一個任務阻塞了就會導致後面的計算沒辦法被執行。Event loop 可以讓javascript 執行非同步的動作
 
-# TypeScript
-```typescript
-function pivotIndex(nums: number[]): number {
-    let leftSum: number = 0
-    let rightSum: number = 0
 
-    for (let i: number = 0 ; i < nums.length; i++) {
-        rightSum += nums[i]
-    }
+## Call-Stack ***(Last In First Out)***
 
-    for (let idx: number = 0 ; idx < nums.length; idx++) {
-        let currNum = nums[idx]
-        rightSum -= currNum
-        if (leftSum === rightSum) return idx 
-        leftSum += currNum
-    }
+當執行func時，會將func push 到 call-stack 裡，並且在執行完該func時從call-stack pop。
 
-    return -1
-};
+```javascript 
+console.log(1)
+console.log(2)
 ```
+Action:
 
-# Golang
-```go
-func pivotIndex(nums []int) int {
-    leftSum := 0
-    rightSum := 0
-    for i := 0 ; i < len(nums) ; i++ {
-        rightSum += nums[i]
-    }
+1. push console.log(1) to call-stack ***|| call-stack: console.log(1)***
+2. execute console.log(1), pop       ***|| call-stack: empty***
+3. push console.log(2) to call-stack ***|| call-stack: console.log(2)***
+4. execute console.log(2), pop       ***|| call-stack: empty***
 
-    for i := 0 ; i < len(nums) ; i++ {
-        currNum := nums[i]
-        rightSum -= currNum
-        if leftSum == rightSum {
-            return i 
-        }
-        leftSum += currNum
-    }
-    return -1
-}
+## micro task and macro task
+1. micro task: promise, queueMicrotask(func)
+2. macro task: setTimeout(func), ... 
+
+當執行到micro/macro task時會push 到 micro/macro task queue.
+當call-stack中的func都執行完變回empty時則先處理micro task queue 在執行macro task queue
+
+例如
+```javascript
+console.log(1);
+
+setTimeout(() => console.log(2));
+
+Promise.resolve().then(() => console.log(3));
+
+Promise.resolve().then(() => setTimeout(() => console.log(4)));
+
+Promise.resolve().then(() => console.log(5));
+
+setTimeout(() => console.log(6));
+
+console.log(7);
 ```
+Action:
 
-# Python
-```python
-class Solution:
-    def pivotIndex(self, nums: List[int]) -> int:
-        leftSum = 0
-        rightSum = sum(nums)
+1. push console.log(1) 到 call-stack 執行並pop
+2. push setTimeout(() => console.log(2)) 到 macro task queue
+2. push () => console.log(3) 到 micro task queue
+3. push () => setTimeout(() => console.log(4)) 到 micro task queue
+4. push () => console.log(5) 到 micro task queue
+5. push setTimeout(() => console.log(6)) 到 macro task queue 
+6. push console.log(7) 到 call-stack 執行並pop
+7. call-stack empty 開始清空micro task queue
+8. dequeue console.log(3) 到 call-stack，執行並pop
+9. dequeue setTimeout( () => console.log(4)) push 到 macro task queue
+10. dequeue console.log(6) 到 call-stack，執行並pop
+11. micro task queue empty 開始清空macro task queue
+12. dequeue console.log(2) 到 call-stack，執行並pop
+13. dequeue console.log(6) 到 call-stack，執行並pop
+14. dequeue console.log(4) 到 call-stack，執行並pop
 
-        for i in range(0, len(nums)):
-            currNum = nums[i]
-            rightSum -= currNum
-            if (leftSum == rightSum): return i
-            leftSum += currNum
-        
-        return -1
-```
+output: 1 7 3 5 2 6 4
 

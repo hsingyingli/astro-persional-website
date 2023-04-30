@@ -1,0 +1,81 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 206. Reverse Linked List
+category: Leetcode 
+date: 2022-10-22 09:18:39.055+00 
+---
+
+
+# Description
+***Easy***
+```
+Given the head of a singly linked list, reverse the list, and return the reversed list.
+```
+
+# TypeScript
+```typescript
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     val: number
+ *     next: ListNode | null
+ *     constructor(val?: number, next?: ListNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.next = (next===undefined ? null : next)
+ *     }
+ * }
+ */
+
+function reverseList(head: ListNode | null): ListNode | null {
+    if (head === null || head.next === null ) return head
+
+    const new_head = reverseList(head.next)
+
+    head.next.next = head
+    head.next = null
+    return new_head
+};
+```
+
+# Python3
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        
+        if not head or not head.next:
+            return head 
+        
+        new_head = self.reverseList(head.next)
+        
+        head.next.next = head
+        head.next = None
+        return new_head
+```
+
+# Golang
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func reverseList(head *ListNode) *ListNode {
+    if head == nil || head.Next == nil {
+        return head
+    }
+
+    new_head := reverseList(head.Next)
+
+    head.Next.Next = head
+    head.Next = nil
+    return new_head
+}
+```

@@ -1,0 +1,89 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 235. Lowest Common Ancestor of a Binary Search Tree
+category: Leetcode 
+date: 2022-10-27 14:08:50.934+00 
+---
+
+
+# Description
+***Medium***
+```
+```
+
+# TypeScript
+```typescript
+/**
+ * Definition for a binary tree node.
+ * class TreeNode {
+ *     val: number
+ *     left: TreeNode | null
+ *     right: TreeNode | null
+ *     constructor(val?: number, left?: TreeNode | null, right?: TreeNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.left = (left===undefined ? null : left)
+ *         this.right = (right===undefined ? null : right)
+ *     }
+ * }
+ */
+
+function lowestCommonAncestor(root: TreeNode | null, p: TreeNode | null, q: TreeNode | null): TreeNode | null {
+    if (root === null) return null
+
+    if (root.val > p.val && root.val > q.val) {
+        return lowestCommonAncestor(root.left, p, q)
+    }
+    if (root.val < p.val && root.val < q.val) {
+        return lowestCommonAncestor(root.right, p, q)
+    }
+    return root
+};
+```
+# Python3
+```python
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution:
+    def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if (root is None): return None
+
+        if (root.val > p.val and root.val > q.val):
+            return self.lowestCommonAncestor(root.left, p, q)
+        
+        if (root.val < p.val and root.val < q.val):
+            return self.lowestCommonAncestor(root.right, p, q)
+        
+        return root
+```
+
+# Golang
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val   int
+ *     Left  *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {
+	if root == nil {
+        return nil
+    }
+
+    if root.Val > p.Val && root.Val > q.Val {
+        return lowestCommonAncestor(root.Left, p, q)
+    }
+    if root.Val < p.Val && root.Val < q.Val {
+        return lowestCommonAncestor(root.Right, p, q)
+    }
+    return root
+}
+```

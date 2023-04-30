@@ -1,0 +1,147 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 2. Add Two Numbers
+category: Leetcode 
+date: 2022-10-21 00:36:38.018+00 
+---
+
+
+# Description
+***Medium***
+```
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+```
+
+# TypeScript
+```typescript
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     val: number
+ *     next: ListNode | null
+ *     constructor(val?: number, next?: ListNode | null) {
+ *         this.val = (val===undefined ? 0 : val)
+ *         this.next = (next===undefined ? null : next)
+ *     }
+ * }
+ */
+
+type Sum = {
+    carry: number 
+    out: number
+}
+
+function addTwoNumbers(l1: ListNode | null, l2: ListNode | null): ListNode | null {
+    let result: ListNode = new ListNode(0)
+    let tail = result 
+    let sum: Sum = {
+        carry: 0,
+        out: 0
+    }
+
+    while(sum.carry>0 || l1 || l2) {
+        const n1 = l1 ? l1.val : 0 
+        const n2 = l2 ? l2.val : 0
+        sum = add(n1, n2, sum.carry)
+        const newNode: ListNode = new ListNode(sum.out, null)
+        tail.next = newNode
+        tail = tail.next
+        l1 = l1 ? l1.next : null 
+        l2 = l2 ? l2.next : null
+    }
+    return result.next
+};
+
+
+
+function add(a: number, b: number, c: number): Sum{
+    let sum = a + b + c
+    let carry = Math.floor(sum/10);
+    let out = sum % 10
+
+    return {carry, out}
+}
+```
+
+# Python3
+```python
+# Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next
+class Solution:
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        result = ListNode(0)
+        result_tail = result 
+        carry = 0
+        
+        while l1 or l2 or carry:
+            val1 = l1.val if l1 else 0 
+            val2 = l2.val if l2 else 0 
+            carry, out = self.add(val1+val2+carry)
+            result_tail.next = ListNode(out)
+            result_tail = result_tail.next
+            
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None 
+        return result.next
+            
+            
+    def add(self, sum):
+        return sum//10, sum%10
+    
+        
+```
+
+# Golang
+
+```go
+/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */
+func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {
+    result := &ListNode{Val:0, Next:nil}
+    tail := result 
+    carry := 0
+    out := 0
+
+    for carry>0 || l1 != nil || l2 != nil {
+        num1 := 0
+        num2 := 0
+        if l1 != nil {
+            num1 = l1.Val
+        }
+
+        if l2 != nil {
+            num2 = l2.Val
+        }
+        
+        carry, out = add(num1, num2, carry)
+        newNode := &ListNode{Val: out, Next: nil}
+        tail.Next = newNode
+        tail = tail.Next
+
+        if l1 != nil {
+            l1 = l1.Next
+        }
+        if l2 != nil {
+            l2 = l2.Next
+        }
+    } 
+    return result.Next
+}
+
+func add(num1 int, num2 int, num3 int) (int, int) {
+    sum := num1 + num2 + num3 
+    return sum / 10, sum % 10
+}
+
+```
