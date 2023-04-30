@@ -2,17 +2,14 @@
 import SkillList from "../components/SkillList/SkillList.astro";
 import Careers from "../components/Career/Careers.astro";
 import Layout from "../layouts/Layout.astro";
-import ProjectList from "../components/ProjectList/ProjectList.astro";
 import Hero from "../components/Hero/Hero.astro";
-import type { Skill, Career, Project } from "../../utils/types";
+import type { Skill, Career } from "../../utils/types";
 
 import skillJson from "../../public/skills.json";
 import careerJson from "../../public/careers.json";
-import projectJson from "../../public/projects.json";
 
 const skills: Array<Skill> = skillJson.skills;
 const careers: Array<Career> = careerJson.careers;
-const projects: Array<Project> = projectJson.projects;
 ---
 
 <Layout title="Aaron Li - HomePage">
@@ -28,6 +25,5 @@ const projects: Array<Project> = projectJson.projects;
     </p>
     <Careers careers={careers} />
   </section>
-  <ProjectList projects={projects} />
   <SkillList skills={skills} />
 </Layout>

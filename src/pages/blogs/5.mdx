@@ -1,0 +1,141 @@
+---
+layout: ../../layouts/BlogLayout.astro
+src: /js.jpeg
+title: let, const, var, and hoisting
+category: Javascript
+date: 2017-01-01
+---
+
+# {frontmatter.title}
+
+> 比較 let, const 和 var 的差異。
+
+* let, const 是 block scope。
+* var 是 function scope， 在function外的會被視為global variable。
+* var 可以重複宣告， let, const則不行
+* var 被 hoisting 之後會被賦予 undefined，let,const 則不會。
+
+
+1. function scope vs block scope 
+```javascript
+//function scope
+function foo() {
+  //...This is function scope
+}
+
+// block scope
+// block scope如果在代碼塊 {...} 內聲明了一個變量，那麼這個變量只在該代碼塊內可見。
+if (condition) {
+  //...This is block scope
+}
+```
+***let和const只在block使用，而var在function外會被視為global variable 需注意！***
+```javascript
+if (condition) {
+    let localVar = "I am local variable"
+}
+console.log(localVar)
+// localVar is not defined
+
+if (condition) {
+    var globalVar = "I am global variable"
+}
+console.log(globalVar)
+// output: I am global variable
+```
+
+2. 重複宣告
+
+let 和 const 不能重複宣告， 而var可以。
+```javascript
+let foo1 = 1
+let foo1 = 1 
+// Identifier 'foo1' has already been declared
+
+var foo2 = 1 
+var foo2 = 1 
+```
+
+3. hoisting
+
+foo 應該要造成error foo is not defined，但卻可以輸出為undefined
+```javascript
+console.log(foo) // undefined
+var foo = 5
+```
+上面的例子可以***想成***
+```javascript
+var foo 
+console.log(foo)
+foo = 5
+```
+在function內
+
+```javascript
+function foo1(){
+  console.log(v) // output: undefined
+  var v = 2
+  console.log() // output: 2
+}
+foo1()
+
+function foo2(v){
+  console.log(v) // output: 1
+  var v = 2
+  console.log() // output: 2
+}
+foo2(1)
+```
+let, const 會被 hoisted 到 uninitialized 的狀態
+```javascript
+var v1 = 10
+function foo1(){
+  console.log(v1) // Cannot access 'v1' before initialization 
+  let v1
+}
+foo1()
+
+var v2 = 10
+function foo2(v2){
+  console.log(v2) 
+  let v2 // Identifier 'v2' has already been declared
+}
+foo2()
+```
+***如果完全忘記了聲明（並且只初始化了值），則變量不會被提升***
+```javascript
+console.log(num); // Throws ReferenceError exception - the interpreter doesn't know about `num`.
+num = 6; // Initialization
+```
+4. 為何需要hoisting?
+* 不需先宣告function才能使用
+```javascript
+foo("hello");
+
+function foo(text) {
+  console.log(`In foo: ${text}`);
+}
+// output: In foo: hello
+```
+* function 可以互相呼叫
+```javascript
+(function foo1() {
+    for (let i = 0; i< 10; i++) {
+        if (i%2===0) {
+            foo2(i)
+        }
+    }
+})()
+
+function foo2(num) {
+    console.log(`In foo2: ${num}`)
+}
+
+/* output: 
+In foo2: 0
+In foo2: 2
+In foo2: 4
+In foo2: 6
+In foo2: 8
+*/
+```

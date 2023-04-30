@@ -1,0 +1,11 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectSlider from "../components/ProjectSlider";
+import type { Project } from "../../utils/types";
+import projectJson from "../../public/projects.json";
+const projects: Array<Project> = projectJson.projects;
+---
+
+<Layout title="Aaron Li - Project">
+  <ProjectSlider projects={projects} client:load />
+</Layout>

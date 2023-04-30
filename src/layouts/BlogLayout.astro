@@ -4,7 +4,7 @@ const { frontmatter } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-color-mode="dark" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -15,7 +15,7 @@ const { frontmatter } = Astro.props;
   <body class="bg-white dark:bg-black transition-colors duration-200">
     <Navbar />
     <main
-      class="prose prose-neutral dark:prose-invert max-w-screen-md min-h-screen mx-auto text-black dark:text-white px-4 pt-[48px]"
+      class="prose prose-neutral dark:prose-invert max-w-screen-md min-h-screen mx-auto text-black dark:text-white px-4 pt-[64px]"
     >
       <slot />
     </main>
@@ -23,23 +23,6 @@ const { frontmatter } = Astro.props;
 </html>
 <style is:global>
   @import url("https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700;800&display=swap");
-  :root {
-    --accent: 124, 58, 237;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      #da62c4 30%,
-      white 60%
-    );
-  }
-  html {
-    font-family: system-ui, sans-serif;
-  }
-  code {
-    font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-      DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-  }
-
   @media (prefers-color-scheme: dark) {
     html {
       color-scheme: dark;

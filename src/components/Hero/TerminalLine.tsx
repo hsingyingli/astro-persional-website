@@ -45,7 +45,7 @@ Scroll down to know more about me...`
           words={[text]}
           cursor
           cursorStyle='_'
-          typeSpeed={70}
+          typeSpeed={50}
           onType={handleType}
         />
       </div>

@@ -1,0 +1,91 @@
+---
+layout: ../../layouts/BlogLayout.astro
+src: /leetcode.jpeg
+title: 3. Longest Substring Without Repeating Characters
+category: Leetcode
+date: 2017-01-01
+---
+
+# {frontmatter.title}
+
+## Table of contents
+* [TypeScript](#typescript)
+* [Golang](#golang)
+* [Python](#python3)
+
+# Description
+***Medium***
+```
+Given a string s, find the length of the longest substring without repeating characters.
+```
+# TypeScript
+```typescript
+function lengthOfLongestSubstring(s: string): number {
+    let max: number = 0
+    let buffer: string = ""
+    for (let i: number = 0; i<s.length; i++) {
+        if (buffer.includes(s[i])) {
+            let idx = buffer.indexOf(s[i])
+            buffer = buffer.substring(idx+1) + s[i]
+        } else {
+            buffer = buffer + s[i]
+        }
+        max = Math.max(max, buffer.length)
+    }
+    return max
+};
+```
+
+# Python3 
+```python
+class Solution:
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        res = 0
+        
+        buffer = ''
+        i = 0
+        while i < len(s):
+            if s[i] not in buffer:
+                buffer += s[i]
+            else:
+                res = max(res, len(buffer))
+                buffer = buffer[buffer.index(s[i])+1:]+ s[i]
+            i+=1
+        return max(res, len(buffer))
+```
+
+# Golang
+```go
+func lengthOfLongestSubstring(s string) int {
+    maxLength := 0
+    buffer := []byte{}
+
+    for i := 0; i<len(s); i++ {
+        idx := indexOf(buffer, s[i])
+        if (idx != -1) {
+            buffer = append(buffer[idx+1:], s[i])
+        } else {
+            buffer = append(buffer, s[i])
+        }
+
+        maxLength = max(maxLength, len(buffer))
+    }
+    return maxLength
+}
+
+func max(num1 int, num2 int) int {
+    if num1 > num2 {
+        return num1 
+    }
+    return num2 
+}
+
+func indexOf(buffer []byte, b byte) int {
+    for i := 0; i<len(buffer); i++ {
+        if buffer[i] == b {
+            return i
+        }
+    }
+    return -1
+}
+```

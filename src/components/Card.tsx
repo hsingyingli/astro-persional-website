@@ -1,18 +1,19 @@
-import type { MDXInstance } from "astro"
-
 interface Props {
-  blog: MDXInstance<Record<string, any>>
+  url: string
+  imgSrc: string
+  title: string
 }
 
-const Card: React.FC<Props> = ({ blog }) => {
-
+const Card: React.FC<Props> = ({ url, imgSrc, title }) => {
   return (
-    <a href={blog.url}>
-      <div>
-        <img src={blog.frontmatter.src} width={250} height={200} />
+    <div className="text-center">
+      <div className="w-full aspect-video overflow-hidden border-2 border-gray-400 rounded-md ">
+        <a href={url}>
+          <img src={imgSrc} className="w-full h-full object-fill" />
+        </a>
       </div>
-      <h1 className="text-center">{blog.frontmatter.title}</h1>
-    </a>
+      <h1 className="text-center truncate mt-3">{title}</h1>
+    </div>
   )
 }
 

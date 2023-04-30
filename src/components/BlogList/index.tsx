@@ -35,28 +35,29 @@ const BlogList: React.FC<Props> = ({ blogs }) => {
         placeholder="Title"
         value={title}
         onChange={(e) => setTitle(e.target.value)} />
-      <div>
+      <div className="flex flex-wrap gap-2">
         {categories.map((c) =>
           <div key={c}
-            className="bg-teal-500 text-white rounded-full text-sm cursor-pointer w-fit p-1"
+            className="border-teal-500 border-2 text-white rounded-full text-sm cursor-pointer w-fit px-2 py-1 hover:text-gray-300"
             onClick={() => handleSelectCategory(c)}>{c}</div>)}
       </div>
       <hr className="border-[0.5px] my-2" />
-      {
-        categoryList.map((c) =>
-          <div key={c}
-            className="bg-teal-400 text-white rounded-full text-sm cursor-pointer w-fit p-1"
-            onClick={() => handleRemoveCategory(c)}>{c}</div>)
-      }
-      <div>
+      <div className="flex flex-wrap gap-2">
+        {
+          categoryList.map((c) =>
+            <div key={c}
+              className="border-red-500 border-2 text-white rounded-full text-sm cursor-pointer w-fit px-2 py-1 hover:text-gray-300"
+              onClick={() => handleRemoveCategory(c)}>{c}</div>)
+        }
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-6 mt-4">
         {blogs.filter((blog) => {
-          console.log(categoryList.length)
           if (categoryList.length > 0 && categoryList.indexOf(blog.frontmatter.category) === -1)
             return false
-          if (!blog.frontmatter.title.includes(title))
+          if (!blog.frontmatter.title.toLowerCase().includes(title.toLowerCase()))
             return false
           return true
-        }).map((blog) => <Card blog={blog} />)}
+        }).map((blog) => <Card url={blog.url as string} imgSrc={blog.frontmatter.src as string} title={blog.frontmatter.title as string} />)}
       </div>
     </div>
   )
