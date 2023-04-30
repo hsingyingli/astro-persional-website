@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import ProjectCard from "./ProjectCard";
-import { Project } from "../../utils/types"
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa"
+import type { Project } from "../../utils/types"
+import { AngleLeftIcon, AngleRightIcon } from "./icons"
 
 interface Props {
   projects: Array<Project>
@@ -55,14 +55,14 @@ const ProjectSlider: React.FC<Props> = ({ projects }) => {
       {
         currentProject === 0 ? null : (
           <button className="absolute top-1/4 left-0 p-3" onClick={prevProject}>
-            <FaAngleLeft className="w-8 h-8" />
+            <AngleLeftIcon width={32} height={32} fill='#FFFFFF' />
           </button>
         )
       }
       {
         currentProject === projects.length - 1 ? null : (
           <button className="absolute top-1/4 right-0 p-3" onClick={nextProject}>
-            <FaAngleRight className="w-8 h-8" />
+            <AngleRightIcon width={32} height={32} fill="#FFFFFF" />
           </button>
         )
       }
