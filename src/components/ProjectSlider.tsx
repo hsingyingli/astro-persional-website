@@ -54,14 +54,14 @@ const ProjectSlider: React.FC<Props> = ({ projects }) => {
       </div>
       {
         currentProject === 0 ? null : (
-          <button className="absolute top-1/4 left-0 p-3" onClick={prevProject}>
+          <button className="absolute top-1/4 -left-1 p-3" onClick={prevProject}>
             <AngleLeftIcon width={32} height={32} fill='#FFFFFF' />
           </button>
         )
       }
       {
         currentProject === projects.length - 1 ? null : (
-          <button className="absolute top-1/4 right-0 p-3" onClick={nextProject}>
+          <button className="absolute top-1/4 -right-1 p-3" onClick={nextProject}>
             <AngleRightIcon width={32} height={32} fill="#FFFFFF" />
           </button>
         )

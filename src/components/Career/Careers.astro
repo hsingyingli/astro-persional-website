@@ -8,6 +8,6 @@ interface Props {
 const { careers } = Astro.props;
 ---
 
-<div class="flex flex-col gap-10">
+<div class="grid grid-cols-[56px_1fr] gap-4">
   {careers.map((career) => <CareerItem career={career} />)}
 </div>

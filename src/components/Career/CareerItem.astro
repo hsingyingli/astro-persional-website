@@ -6,20 +6,15 @@ interface Props {
 const { career } = Astro.props;
 ---
 
-<div class="flex gap-12 items-start">
-  <div class="min-w-14 overflow-hidden rounded-full">
-    <a target="_blank" href={career.href}>
-      <img src={career.image} width="56" height="56" />
-    </a>
-  </div>
-  <div class="text-black dark:text-white">
-    <h1 class="text-xl font-medium text-black dark:text-white mb-1">
-      {career.company}
-    </h1>
-    <h2 class="mb-1 text-black dark:text-white">{career.title}</h2>
-    <h3 class="text-gray-600 mb-2">{career.date}</h3>
-    <ul class="leading-loose">
-      {career.infoList.map((info) => <li>{info}</li>)}
-    </ul>
-  </div>
+<div class="min-w-14 overflow-hidden rounded-full">
+  <a target="_blank" href={career.href}>
+    <img src={career.image} width="56" height="56" />
+  </a>
+</div>
+<div class="text-black dark:text-white">
+  <h1 class="text-xl font-medium text-black dark:text-white mb-1">
+    {career.company}
+  </h1>
+  <h2 class="mb-1 text-black dark:text-white">{career.title}</h2>
+  <h3 class="text-gray-600 mb-2">{career.date}</h3>
 </div>
