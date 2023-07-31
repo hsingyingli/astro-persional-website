@@ -1,0 +1,117 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /SOLID.png
+title: Open/Closed Principle (OCP)
+category: SOLID 
+date: 2023-07-29 15:35:24.21+00
+---
+
+> The SOLID principles are a set of design principles that can help you write more maintainable, flexible, and scalable software
+
+# Table of Content
+* [Definition](##Open/Close-Principle-(OCP)-states)
+* [Invalid Example](##example-with-violation-(Invalid))
+* [Valid Example](##example-following-OCP-(Valid))
+* [Benefits](##Benefits-of-OCP)
+
+# Open/Closed Principle (OCP)
+
+## Open/Closed Principle (OCP) states
+> Objects or entities should be open for extension but closed for modification.
+This principle promotes the idea of building systems in a way that allows them to be easily extended with new features or changes in requirements, without altering the existing, well-tested code-base.
+
+## Example with Violation (Invalid)
+
+### Class
+```js
+class Shape {
+  constructor(type, width, height) {
+    this.type = type;
+    this.width = width;
+    this.height = height;
+  }
+
+  calculateArea() {
+    if (this.type === 'rectangle') {
+      return this.width * this.height;
+    } else if (this.type === 'circle') {
+      return Math.PI * Math.pow(this.width / 2, 2);
+    }
+  }
+}
+```
+If you want to add a new shape or modify the area calculation of an existing shape, you would need to modify the Shape class.
+
+### function
+```js
+function calculateTotalPrice(cartItems, userType) {
+  let totalPrice = 0;
+  for (const item of cartItems) {
+    totalPrice += item.price;
+  }
+
+  if (userType === 'premium') {
+    totalPrice *= 0.9;
+  }
+
+  return totalPrice;
+}
+```
+If you want to add a new user type or modify the discount logic, you would have to modify this function.
+
+## Example following OCP (Valid)
+
+### Class
+```js
+class Shape {
+  constructor() {}
+
+  calculateArea() {
+    throw new Error('calculateArea() must be implemented in subclasses.');
+  }
+}
+
+class Rectangle extends Shape {
+  constructor(width, height) {
+    ...
+  }
+
+  calculateArea() {
+    return this.width * this.height;
+  }
+}
+
+class Circle extends Shape {
+  constructor(radius) {
+    ...
+  }
+
+  calculateArea() {
+    return Math.PI * Math.pow(this.radius, 2);
+  }
+}
+```
+
+### function
+```js
+function calculateTotalPrice(cartItems, discount = 1) {
+  let totalPrice = 0;
+  for (const item of cartItems) {
+    totalPrice += item.price;
+  }
+
+  totalPrice = totalPrice * discount
+
+  return totalPrice;
+}
+```
+
+## Benefits of OCP
+
+1. Extensibility: Adding new functionality or behaviors can be achieved by creating new functions (strategies) without modifying the existing code.
+
+2. Code Reusability: Different strategies can be reused in different parts of the application, promoting a more modular codebase.
+
+3. Readability: Functions focus on their specific tasks, making the codebase easier to understand and maintain.
+
+4. Testing: The use of strategies allows for more targeted and isolated testing

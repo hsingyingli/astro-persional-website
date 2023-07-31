@@ -13,8 +13,6 @@ const TerminalLine: React.FC<Props> = ({ delay }) => {
     if (refContainer.current === null) return
     const element = refContainer.current
     element.scrollTo({ top: element.scrollHeight - element.clientHeight })
-    console.log(element.scrollTop)
-    console.log(element.scrollHeight)
   }
 
   useEffect(() => {

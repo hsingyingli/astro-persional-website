@@ -7,6 +7,7 @@ interface Props {
 }
 
 const BlogList: React.FC<Props> = ({ blogs }) => {
+  console.log(blogs)
   const [title, setTitle] = useState("")
   const [categoryList, setCategoryList] = useState<Array<string>>([])
 
@@ -54,10 +55,14 @@ const BlogList: React.FC<Props> = ({ blogs }) => {
         {blogs.filter((blog) => {
           if (categoryList.length > 0 && categoryList.indexOf(blog.frontmatter.category) === -1)
             return false
-          if (!blog.frontmatter.title.toLowerCase().includes(title.toLowerCase()))
+          if (!blog.frontmatter?.title?.toLowerCase().includes(title?.toLowerCase()))
             return false
           return true
-        }).map((blog) => <Card url={blog.url as string} imgSrc={blog.frontmatter.src as string} title={blog.frontmatter.title as string} />)}
+        }).map((blog) => <Card 
+            key={blog.frontmatter.title}
+            url={blog.url as string} 
+            imgSrc={blog.frontmatter.src as string} 
+            title={blog.frontmatter.title as string} />)}
       </div>
     </div>
   )
