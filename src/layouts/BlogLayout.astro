@@ -17,6 +17,8 @@ const { frontmatter } = Astro.props;
     <main
       class="prose prose-neutral dark:prose-invert max-w-screen-md min-h-screen mx-auto text-black dark:text-white px-4 pt-[64px]"
     >
+      <h1>{frontmatter.title}</h1>
+      <image class="w-full rounded-md" src={frontmatter.src} />
       <slot />
     </main>
   </body>

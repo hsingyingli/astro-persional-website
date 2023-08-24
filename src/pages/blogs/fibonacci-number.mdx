@@ -1,0 +1,68 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 509. Fibonacci Number
+category: Leetcode 
+date: 2022-10-29 05:40:41.536+00 
+---
+
+## Description
+***Easy***
+```
+The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
+
+F(0) = 0, F(1) = 1
+F(n) = F(n - 1) + F(n - 2), for n > 1.
+```
+
+## TypeScript
+```typescript
+function fib(n: number): number {
+    if (n === 0 || n === 1) return n
+    let dp: number[] = [0, 1]
+    for (let i: number = 2 ; i <= n ; i++) {
+        if (i % 2 == 1) {
+            dp[0] = dp[0] + dp[1]
+        } else {
+            dp[1] = dp[0] + dp[1]
+        }
+    }
+    return dp[0] + dp[1]
+};
+```
+
+## Python3
+```python
+class Solution:
+    def fib(self, n: int) -> int:
+        if (n == 0 or n == 1):
+            return n
+
+        dp = [0, 1]
+        
+        for i in range(2, n+1):
+            if i % 2 == 1:
+                dp[0] = dp[0] + dp[1]
+            else:
+                dp[1] = dp[0] + dp[1]
+            
+        return dp[0] + dp[1]
+```
+
+## Golang
+```go
+func fib(n int) int {
+    if n == 0 || n == 1 {
+        return n
+    }
+    dp := [2]int{0, 1}
+    for i:= 2 ; i <= n ; i++ {
+        if i % 2 == 1 {
+            dp[0] = dp[0] + dp[1]
+        } else {
+            dp[1] = dp[0] + dp[1]
+        }
+    }
+return dp[0] + dp[1]
+}
+```

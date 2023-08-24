@@ -1,0 +1,39 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /SOLID.png
+title: Interface Segregation Principle (ISP)
+category: SOLID 
+date: 2023-08-05 14:30:24.21+00
+---
+> The SOLID principles are a set of design principles that can help you write more maintainable, flexible, and scalable software
+
+## Table of Content
+* [Definition](##Single-responsibility-principle-(ISP)-states)
+* [Invalid Example](##example-with-violation-(Invalid))
+* [Benefits](##Benefits-of-ISP)
+
+## Single Responsibility Principle (ISP) states
+> A client should never be forced to implement an interface that it does not use, or clients should not be forced to depend on methods they do not use.
+
+
+## Example with Violation (Invalid)
+```js
+class Square {
+  setWidth(width) {}
+  ...
+
+  volume() {}
+}
+
+class Cube extends Square {
+  setWidth(width) {}
+  volume() {}
+}
+```
+why does it valid ISP?
+Any Flat square your create must be implement volume function that it has no use of.
+
+## Benefits of ISP 
+1. Reduced coupling: Classes depend on smaller, more specific interfaces, which decreases unnecessary dependencies between classes.
+2. Improved maintainability: Changes to an interface won't impact classes that don't use the modified methods.
+3. Better cohesion: Interfaces are tailored to the exact needs of the client classes, promoting clearer responsibilities and a more cohesive design.

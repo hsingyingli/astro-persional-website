@@ -1,0 +1,74 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 55. Jump Game
+category: Leetcode 
+date: 2022-10-23 14:08:10.691+00 
+---
+
+
+## Description
+***Medium***
+```
+You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+
+Return true if you can reach the last index, or false otherwise.
+```
+## TypeScript
+```typescript
+function canJump(nums: number[]): boolean {
+    let current: number = 0
+    let next: number = 0
+
+    while (current <= next) {
+        next = Math.max(next, current + nums[current])
+        if (next >= nums.length-1) {
+            return true
+        }
+        current++
+    }
+    return false
+};
+```
+
+## Python3
+```python
+class Solution:
+    def canJump(self, nums: List[int]) -> bool:
+        curr = 0 
+        next = 0 
+        
+        while(curr <= next):
+            next = max(next, curr + nums[curr])
+            
+            if next >= len(nums)-1:
+                return True
+            
+            curr += 1
+            
+        return False
+```
+
+# Golang
+```go
+func canJump(nums []int) bool {
+    current := 0
+    next := 0
+
+    for current <= next {
+        next = max(next, current+nums[current])
+        if next >= len(nums) - 1 {
+            return true
+        }
+        current++
+    }
+    return false
+}
+
+func max(num1 int, num2 int) int {
+    if num1 > num2 {
+        return num1 
+    }
+    return num2
+}
+```

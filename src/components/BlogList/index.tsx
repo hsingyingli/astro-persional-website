@@ -7,7 +7,6 @@ interface Props {
 }
 
 const BlogList: React.FC<Props> = ({ blogs }) => {
-  console.log(blogs)
   const [title, setTitle] = useState("")
   const [categoryList, setCategoryList] = useState<Array<string>>([])
 

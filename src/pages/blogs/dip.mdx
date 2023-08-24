@@ -1,0 +1,105 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /SOLID.png
+title: Dependency Inversion Principle (DIP)
+category: SOLID 
+date: 2023-08-05 14:31:24.21+00
+---
+> The SOLID principles are a set of design principles that can help you write more maintainable, flexible, and scalable software
+
+## Table of Content
+* [Definition](##dependency-inversion-principle-(DIP)-states)
+* [Key Points](##key-points)
+* [From tightly Coupled to Loosely Coupled](##from-tightly-coupled-to-loosely-coupled)
+* [Benefits](##Benefits-of-DIP)
+
+## Dependency Inversion Principle (DIP) states
+> Entities must depend on abstractions, not on concretions. It states that the high-level module must not depend on the low-level module, but they should depend on abstractions.
+1. High-level modules should not depend on low-level modules. Both should depend on abstractions. 
+2. Abstractions should not depend on details. Details should depend on abstractions.
+
+## Key Points
+1. Inversion of Control (IoC):  Control of object creation and handling dependencies is inverted to a higher level in the application.
+
+2. Dependency Injection: Dependency Injection allows high-level modules to be provided with their dependencies (low-level modules) ***from external sources***.
+
+3. Abstraction: 
+Introducing abstractions, such as interfaces or abstract classes, helps in decoupling high-level modules from low-level modules. 
+High-level modules ***depend on these abstractions*** instead of concrete implementations.
+
+## From tightly Coupled to Loosely Coupled
+> tightly coupled -> IoC -> DIP -> loosely couple
+### Tightly Coupled Classes
+```js
+// Tightly Coupled Classes (Initial State)
+class EmailService {
+  sendEmail(to, content) {
+    console.log(`Sending email to ${to}: ${content}`);
+  }
+}
+
+class Order {
+  constructor() {
+    this.emailService = new EmailService(); // Direct dependency, tightly coupled.
+  }
+
+  placeOrder(customerEmail, orderContent) {
+    ...
+    this.emailService.sendEmail(customerEmail, orderContent);
+  }
+}
+
+const order = new Order();
+order.placeOrder('customer@example.com', 'Product: XYZ, Quantity: 2');
+```
+The Order class directly creates an instance of the EmailService class, creating tight coupling between them. If we change EmailService class, we need to change Order class too.
+
+
+### IoC 
+#### How to implement IoC principle?
+1. Service Locator(pattern)
+2. Factory(pattern)
+3. Dependency Injection(pattern)
+
+...
+
+Let's use Dependency Injection to implement IoC.
+
+```ts
+// Abstractions (Interfaces)
+// High-level modules should not depend on low-level modules. Both should depend on abstractions. 
+
+interface EmailServiceInterface {
+  sendEmail(to: string, content: string): void;
+}
+
+interface OrderProcessorInterface {
+  processOrder(customerEmail: string, orderContent: string): void;
+}
+
+// Low-Level Module
+class EmailService implements IEmailService {
+  sendEmail(to: string, content: string): void {
+    console.log(`Sending email to ${to}: ${content}`);
+  }
+}
+
+// High-Level Module with Dependency Inversion (Dependency Injection)
+class OrderProcessor implements IOrderProcessor {
+  private emailService: IEmailService;
+
+  constructor(emailService: IEmailService) {
+    this.emailService = emailService;
+  }
+
+  processOrder(customerEmail: string, orderContent: string): void {
+    ...
+    this.emailService.sendEmail(customerEmail, orderContent);
+  }
+}
+```
+
+## Benefits of DIP 
+1. Reduced coupling: High-level modules are no longer tightly coupled to low-level modules, making it easier to modify or replace implementations without affecting the high-level logic.
+2. Flexibility: Different implementations of the same abstraction (interface) can be easily swapped, promoting flexibility and adaptability in the system.
+3. Testability: Dependency injection facilitates easier testing by allowing the injection of mock or fake implementations during testing.

@@ -1,0 +1,123 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 15. 3Sum
+category: Leetcode 
+date: 2022-10-22 08:51:42.47+00 
+---
+
+## Description
+***Medium***
+```
+Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.
+
+Notice that the solution set must not contain duplicate triplets.
+
+
+```
+
+## TypeScript
+```typescript
+function threeSum(nums: number[]): number[][] {
+    let ans: Array<Array<number>> = []
+    nums = nums.sort((a, b) => a-b)
+    for (let idx=0; idx<nums.length; idx++) {
+        const num = nums[idx]
+        if (idx > 0 && num === nums[idx-1]) continue
+        let left: number = idx + 1 
+        let right: number = nums.length -1 
+        
+        while(left < right) {
+            if (left > idx + 1 && nums[left] === nums[left-1]) {
+                left++
+                continue
+            }
+            if (right < nums.length -1  && nums[right] === nums[right+1]) {
+                right--
+                continue
+            }
+
+            const sum: number = num + nums[left] + nums[right]
+
+            if (sum === 0) {
+                ans.push([num, nums[left], nums[right]])
+                left++
+            } else if (sum > 0) {
+                right--
+            } else {
+                left++
+            }
+        }
+    }
+    return ans
+};
+```
+
+## Python3
+```python
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        ans = []
+        nums.sort()
+        for idx, n1 in enumerate(nums):
+            if (idx > 0 and n1 == nums[idx-1]): continue
+
+            left, right = idx+1, len(nums)-1
+            while (left < right):
+                if (left > idx+1 and nums[left] == nums[left-1]): 
+                    left+=1
+                    continue
+
+                if (right < len(nums)-1 and nums[right] == nums[right+1]): 
+                    right-=1
+                    continue
+                    
+                _sum = nums[left] + nums[right] + n1
+                if (_sum == 0):
+                    ans.append([n1, nums[left], nums[right]])
+                    left += 1
+                elif (_sum > 0): right-=1
+                elif (_sum < 0): left+=1
+        return ans
+```
+
+## Golang
+```go
+func threeSum(nums []int) [][]int {
+    ans := [][]int{}
+
+    sort.Ints(nums[:])
+    for idx, num := range nums {
+        if idx > 0 && num == nums[idx-1] {
+            continue
+        }
+
+        left := idx +1
+        right := len(nums) -1
+
+        for left < right {
+            if left > idx+1 && nums[left] == nums[left-1] {
+                left++
+                continue
+            }
+            if right < len(nums)-1 && nums[right] == nums[right+1] {
+                right--
+                continue
+            }
+
+            sum := num + nums[left] + nums[right]
+
+            if (sum == 0) {
+                triplets := []int{num, nums[left], nums[right]}
+                ans = append(ans, triplets)
+                left++
+            } else if (sum > 0) {
+                right--
+            } else {
+                left++
+            }
+        }
+    }
+    return ans
+}
+```

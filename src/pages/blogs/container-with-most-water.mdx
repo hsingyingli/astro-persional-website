@@ -1,0 +1,98 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 11. Container With Most Water
+category: Leetcode 
+date: 2022-10-21 00:35:24.21+00 
+---
+
+## Description
+***Medium***
+
+```
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Notice that you may not slant the container.
+```
+
+
+
+
+## TypeScript
+```typescript
+function maxArea(height: number[]): number {
+    let ans: number = -1 
+    let left: number = 0
+    let right: number = height.length -1 
+
+    while (left < right) {
+        const area: number = Math.min(height[left], height[right]) * (right - left)
+        ans = Math.max(ans, area)
+
+        if (height[right] > height[left]) {
+            left++
+        } else {
+            right--
+        }
+    }
+
+    return ans
+};
+```
+
+## Python3
+```python
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        ans = -1 
+        left = 0 
+        right = len(height)-1
+
+        while(left < right):
+            area = min(height[left], height[right]) * (right - left)
+            ans = max(ans, area)
+            if (height[right] > height[left]):
+                left+=1
+            else:
+                right-=1
+        return ans
+```
+
+## Golang
+```go
+func maxArea(height []int) int {
+    ans := -1 
+    left := 0 
+    right := len(height)-1
+
+    for left < right {
+        area := min(height[left], height[right]) * (right - left)
+        ans = max(ans, area)
+        if (height[right] > height[left]) {
+            left++
+        } else {
+            right--
+        }
+    }
+    return ans
+}
+
+
+func max(num1 int, num2 int) int {
+    if num1 > num2 {
+        return num1 
+    }
+    return num2
+}
+
+func min(num1 int, num2 int) int {
+    if num1 > num2 {
+        return num2
+    }
+    return num1
+}
+```

@@ -1,0 +1,81 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 102. Binary Tree Level Order Traversal
+category: Leetcode 
+date: 2022-10-29 06:43:00.091+00 
+---
+
+## Description
+
+***Medium***
+```
+Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+```
+
+## TypeScript
+```typescript
+```
+
+## Python3
+```python
+```
+
+## Golang
+```go
+/**
+ * Definition for a binary tree node.
+ * type TreeNode struct {
+ *     Val int
+ *     Left *TreeNode
+ *     Right *TreeNode
+ * }
+ */
+
+ type Record struct {
+    node *TreeNode
+    level int
+ }
+
+func levelOrder(root *TreeNode) [][]int {
+    buffer := []Record{Record{
+        node: root,
+        level: 0,
+    }}
+    var record Record
+    var currLevel = 0
+    ans := [][]int{}
+    levelNodes := []int{}
+
+    for len(buffer) > 0 {
+        buffer, record = pop_front(buffer) 
+        if record.node != nil {
+            if record.level > currLevel {
+                currLevel = record.level
+                ans = append(ans, levelNodes)
+                levelNodes = []int{}
+            }
+
+            levelNodes = append(levelNodes, record.node.Val)
+            buffer = append(buffer, Record{node: record.node.Left, level: record.level+1})
+            buffer = append(buffer, Record{node: record.node.Right, level: record.level+1})
+        }
+    }
+    if len(levelNodes) > 0 {
+        ans = append(ans, levelNodes)
+    }
+    
+    return ans
+}
+
+func pop_front(list []Record) ([]Record, Record) {
+    var record Record
+    if len(list) == 0 {
+        return list, record
+    }
+
+    record = list[0]
+
+    return list[1:], record
+}
+```

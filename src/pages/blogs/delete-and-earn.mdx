@@ -1,0 +1,75 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /leetcode.jpeg
+title: 740. Delete and Earn
+category: Leetcode 
+date: 2022-10-23 12:19:51.506+00 
+---
+
+
+## Description
+***Medium***
+```
+You are given an integer array nums. You want to maximize the number of points you get by performing the following operation any number of times:
+
+Pick any nums[i] and delete it to earn nums[i] points. Afterwards, you must delete every element equal to nums[i] - 1 and every element equal to nums[i] + 1.
+Return the maximum number of points you can earn by applying the above operation some number of times.
+```
+
+## TypeScript
+```typescript
+
+```
+
+## Python3
+
+```python
+
+
+```
+
+## Golang
+
+```go
+func deleteAndEarn(nums []int) int {
+    keys := []int{}
+    maps := make(map[int]int)
+
+    for _, num := range nums {
+        amount, ok := maps[num]
+        if !ok {
+            keys = append(keys, num)
+        }
+        maps[num] = amount + 1
+    }
+    sort.Ints(keys[:])
+
+    dp := make([][2]int, len(keys))
+    dp[0][0] = 0
+    dp[0][1] = maps[keys[0]] * keys[0]
+
+    for i := 1 ; i < len(keys) ; i++ {
+        // pick
+
+        total := maps[keys[i]] * keys[i]
+
+        if keys[i] == keys[i-1] + 1 {
+            dp[i][1] = total + dp[i-1][0]
+        } else {
+            dp[i][1] = total + max(dp[i-1][1], dp[i-1][0])
+        }
+
+        // not pick
+        dp[i][0] = max(dp[i-1][0], dp[i-1][1])
+    }
+
+    return max(dp[len(keys)-1][0], dp[len(keys)-1][1])
+}
+
+func max(num1 int, num2 int) int {
+    if num1 > num2 {
+        return num1
+    }
+    return num2
+}
+```

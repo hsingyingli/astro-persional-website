@@ -1,0 +1,264 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /alg.jpeg
+title: 4. Binary tree
+category: Algorithm and Data Structure 
+date: 2022-12-27 11:05:59.801+00 
+---
+
+## Github
+[github](https://github.com/hsingyingli/data-structure-and-algorithm/tree/main/bst)
+
+## Structure
+```
+       parent
+         |    
+        node
+      /      \
+left node   right node
+```
+
+## Interface
+
+* height(node): number of edge in largest downward path from root
+* depth(node): number of edge in path from root
+* subtreeFirst(node): in traversal order, which node (include node itself) come first.
+* subtreeAfter(node): in traversal order, which node (include node itself) come .
+* successor(node): next after node in tree's traversal order
+* predecessor(node): next after node in tree's traversal order
+* subtreeInsertAfter(node, new): insert new node after node in traversal order
+* subtreeInsertBefore(node, new): insert new node before node in traversal order
+* subtreeDelete(node): delete node
+
+## height(node)
+```go
+func (node *Node) height() int {
+	height := 0
+	left := 0
+	right := 0
+	
+	// there is an edge downware
+	if node.left != nil || node.right != nil {
+		height++
+	}
+
+	if node.left != nil {
+		left = node.left.height()
+	}
+	if node.right != nil {
+		right = node.right.height()
+	}
+	return height + util.Max(left, right)
+}
+```
+
+## depth(node)
+```go
+func (node Node) depth() int {
+	depth := 0
+
+	if node.parent != nil {
+		depth++
+		depth += node.parent.depth()
+	}
+
+	return depth
+}
+```
+
+## subtreeFirst(node)
+> get the left most leaf.
+
+```go
+func (node *Node) subtreeFirst() *Node {
+	if node.left == nil {
+		return node
+	}
+	return node.left.subtreeFirst()
+}
+```
+
+## subtreeAfter(node)
+> get the right most leaf.
+
+```go
+func (node *Node) subtreeAfter() *Node {
+    if node.right == nil {
+        return node
+    }
+    return node.right.subtreeAfter()
+}
+```
+
+## successor(node)
+> if node has a right children, find the subtreeFirst of the right children as root.
+> else tracing upwared until the parent's left children is the node
+
+```go
+func (node *Node) successor() *Node{
+    if node.right != nil {
+        return node.right.subtreeFirst()
+    }
+    
+    parent := node.parent
+    current := node
+    
+    for parent != nil && parent.left != current {
+        current = parent
+        parent = current.parent
+    }
+    return parent
+}
+```
+
+## predecessor(node)
+> if node has a left children, find the subtreeAfter of the right children as root.
+> else tracing upwared until the parent's right children is the node
+
+```go
+func (node *Node) predecessor() *Node {
+    if node.left != nil {
+        return node.left.subtreeAfter()
+    }
+    
+    parent := node.parent
+    children := node
+    for parent != nil && parent.right != children {
+        children = parent
+        parent = children.parent
+    }
+    return parent
+}
+```
+## subtreeInsertAfter(node, new)
+```
+The simplest case: 
+            17
+      13           20
+  12     16      18 <- insert {19} after this node
+9      15          {19}
+
+just insert as right children
+
+            17  <- insert {18} after this node
+      13           20
+  12     16      19 <- successor
+9      15     {18}
+
+find the successor and insert
+as the left children of successor
+```
+
+```go
+func (node *Node) subtreeInsertAfter(new) {
+    if node.right == nil {
+        node.right = new
+        new.parent = node
+        return
+    }
+    
+    successor = node.successor()
+    successor.left = new
+    new.parent = successor
+}
+```
+
+## subtreeInsertBefore(node, new)
+```
+The simplest case: 
+            17
+      13           20
+  12     16      19 <- insert {18} before this node
+9      15     {18}
+
+just insert as left children
+
+            17  <- insert {16} before this node
+      13           20
+  12     15      19
+9      14  {16}   
+
+find the predecessor and insert
+as the right children of predecessor
+```
+
+```go
+func (node *Node) subtreeInsertBefore(new) {
+    if node.left == nil {
+        node.left = new
+        new.parent = node
+        return
+    }
+    
+    predecessor = node.predecessor()
+    predecessor.left = new
+    new.parent = predecessor
+}
+```
+## subtreeDelete(node)
+
+```
+The simplest case: leaf
+            17  
+      13           20
+  12     15      19
+9      14  <- delete
+
+just 15 -\-> 14
+
+            17  <- delete
+      13           20
+  12     15      19
+9      14   
+
+step 1: find the predecessor / successor and swap
+
+            {15}  
+      13           20
+  12     {17}    19
+9      14  
+
+step 2: do the subtreeDelete to the predecessor / successor.
+
+             15  
+      13           20
+  12     {14}    19
+9      17  
+
+14 -\-> 17
+
+             15  
+      13           20
+  12     {14}    19
+9        
+
+order: 9, 12, 13, 14, 15, 19, 20
+```
+
+```go
+func (node *Node) subtreeDelete() {
+    if node.left == nil && node.right == nil && node.parent != nil {
+        if node.parent.left == node {
+            node.parent.left = nil
+            node.parent = nil
+        }  else {
+            node.parent.right = nil
+            node.parent = nil
+        }
+        return
+    }
+    
+    if node.left != nil {
+        predecessor := node.predecessor()
+        node.value = predecessor.value
+        predecessor.subtreeDelete()
+        return
+    }
+    if node.right != nil {
+        successor := node.successor()
+        node.value = successor.value
+        successor.subtreeDelete()
+        return
+    }
+}
+```
