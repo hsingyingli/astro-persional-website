@@ -1,8 +1,122 @@
 ---
 layout: ../../layouts/BlogLayout.astro 
-src: /alg.jpeg
+src: /oop.png
 title: Object Oriented Paradigm 
-category: paradgim
+category: Paradigm
 date: 2023-09-03 13:05:08.618+00
-draft: true
 ---
+> Object-Oriented Programming (O.O.P.) is a programming paradigm or style that organizes code and data into reusable and self-contained units called objects.
+
+## Table of Content
+* [What is object](#what-is-object)
+* [Concepts](#concepts)
+
+## What is object?
+> Object represent real-world entities or concepts and encapsulate both data (attributes or properties) and behavior (methods or functions)
+
+### Describe Object in different perspective
+* Conceptual Perspective:
+  1. a set of ***responsibilities***.
+  2. a fundamental entity that represents a real-world concept or abstraction in the software system.
+* Specification Perspective:
+  1. a set of behavior can be called by other object or itself.
+  2. what data an object can hold and what operations can be performed on it.
+* Implementation Perspective:
+  1. Objects hold their data in fields or variables and execute their behavior through methods.
+
+## Concepts
+### Encapsulation
+> The key idea behind encapsulation is to hide the internal details of an object's implementation and expose a well-defined and controlled interface for interacting with it
+* public: are accessible from anywhere.
+* protected:  are accessible within the class itself and by its sub-classes.
+* private: are accessible from within the same class and are not visible to sub-classes or external code.
+```python 
+class Foo:
+  def__init__(self):
+    self.public_var = "I'm public"
+    self._protected_var = "I'm protected"
+    self.__private_var = "I'm private"
+```
+
+### Inheritance
+>  Inheritance is a mechanism that allows a class (called a subclass or derived class) to inherit the properties and methods of another class (called a superclass or base class)
+```python
+class ParentClass:
+    def __init__(self):
+        self.public_var = "I'm public"
+        self._protected_var = "I'm protected"
+
+class ChildClass(ParentClass):
+    def __init__(self):
+        super().__init__()
+
+    def access_parent_vars(self):
+        print(self.public_var)
+        print(self._protected_var)
+```
+
+### Polymorphism
+> the same method name can behave differently depending on the object it is called on.
+```python
+class Bird:
+  def speak(self):
+    pass
+
+class Duck(Bird):
+  def speak(self):
+    return "Quack!"
+
+class Crow(Bird):
+  def speak(self):
+    return "Caw!"
+```
+### Abstraction
+> It hides the unnecessary details while exposing the necessary ones. Abstraction allows us to manage complexity, focus on what's important, and create models that are easier to understand and work with
+* identifying essential features
+* providing a clear interface
+```python
+from abc import ABC, abstractmethod
+
+# Abstract class representing a geometric shape
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+
+    @abstractmethod
+    def perimeter(self):
+        pass
+
+# Concrete class representing a rectangle
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+# Concrete class representing a circle
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+
+    def area(self):
+        import math
+        return math.pi * self.radius ** 2
+
+    def perimeter(self):
+        import math
+        return 2 * math.pi * self.radius
+
+# Using the abstraction
+shapes = [Rectangle(4, 5), Circle(3)]
+
+for shape in shapes:
+    print(f"Area: {shape.area()}")
+    print(f"Perimeter: {shape.perimeter()}")
+    print()
+```
