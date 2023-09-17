@@ -1,0 +1,49 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /design-pattern.png
+title: Singleton
+category: Design Pattern
+date: 2023-09-16 08:51:42.47+00 
+---
+## Table of Content 
+* [Describe](#describe)
+* [Benefit and Drawback](#benefit-and-drawback)
+* [Use Cases](#use-cases)
+
+## Describe
+> The Singleton pattern is a creational design pattern that ensures a class has only one instance and provides a global point of access to that instance. It is used when you want to control the instantiation of a class to ensure there's only one instance throughout the lifetime of the application.
+
+```python
+import sqlite3
+
+class DatabaseConnection:
+    _instance = None
+
+    def __new__(cls, database_name):
+        if cls._instance is None:
+            cls._instance = super(DatabaseConnection, cls).__new__(cls)
+            cls._instance.connection = sqlite3.connect(database_name)
+        return cls._instance
+
+    def execute_query(self, query):
+        cursor = self.connection.cursor()
+        cursor.execute(query)
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+```
+## Benefit and Drawback
+### Benefit 
+1. ***Controlled Access***: Singleton ensures a single point of access to an object, which is particularly useful when resources like database connections or hardware devices need to be shared.
+
+2. ***Resource Sharing***: It allows for efficient resource sharing because only one instance of the object is created, saving memory and resources.
+
+### Drawback
+1. Overuse of Singleton can lead to tight coupling in your code, making it less maintainable and testable
+
+## Use Cases 
+* ***Database Connections***: Singleton is commonly used to manage database connections in an application. It ensures that multiple parts of the codebase share the same database connection, preventing excessive resource usage.
+* ***Logging***: When you want to maintain a single log file or logger instance throughout the application, Singleton can ensure that log messages are consistently written to the same file.
+* ***Caching***: Singleton can be used to manage a cache that stores frequently used data or objects.
+* ***Configuration Management***: It's helpful for managing application configuration settings that should remain consistent throughout the program's execution.
+* ***ThreadPools***: In multi-threaded environments, Singleton can be used to create and manage a limited number of worker threads.
