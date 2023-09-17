@@ -1,0 +1,67 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /design-pattern.png
+title: Factory Method 
+category: Design Pattern
+date: 2023-09-17 08:51:42.47+00 
+---
+## Table of Content 
+* [Describe](#describe)
+* [Benefit and Drawback](#benefit-and-drawback)
+* [Use Cases](#use-cases)
+
+## Describe
+> The Factory Method pattern is a creational design pattern that provides an ***interface*** for creating objects in a super-class but allows sub-classes to alter the type of objects that will be created. It abstracts the process of object creation, making it more flexible and allowing the client code to depend on the interface rather than specific implementations.
+### Core Concept
+It ***<ins>abstracts the process of object creation</ins>***, making it more flexible and allowing the client code to depend on the interface rather than specific implementations.
+### What's Involved:
+* Creator: This is an abstract class or interface that declares the factory method, which returns objects of a product type.
+```python
+# Creator (Abstract Creator)
+class VehicleFactory(ABC):
+    @abstractmethod
+    def create_vehicle(self):
+        pass
+```
+* Concrete Creator (Subclass): Subclasses of the Creator implement the factory method to produce specific product objects. Each Concrete Creator specializes in creating a particular product.
+```python
+# Concrete Creators
+class CarFactory(VehicleFactory):
+    def create_vehicle(self):
+        return Car()
+
+class MotorcycleFactory(VehicleFactory):
+    def create_vehicle(self):
+        return Motorcycle()
+```
+* Abstracts Product(optional):
+```python
+# Product
+class Vehicle(ABC):
+    @abstractmethod
+    def drive(self):
+        pass
+```
+* Product:
+```python
+# Concrete Products
+class Car(Vehicle):
+    def drive(self):
+        return "Driving a car"
+
+class Motorcycle(Vehicle):
+    def drive(self):
+        return "Riding a motorcycle"
+```
+
+## Benefit and Drawback
+* Benefit
+  1. Flexibility: You can easily add new product by creating new concrete classes.
+  2. Code Separation: The client code remains separate from the concrete product creation details, promoting clean and maintainable code.
+  3. Extensibility: The pattern follows the Open-Closed Principle, allowing you to extend the system without modifying existing code.
+* Drawback
+  1. Complexity: The Factory Method pattern can introduce additional complexity due to the introduction of multiple classes and abstractions. In simpler cases, direct object instantiation may be more straightforward.
+
+## Use Cases
+1. The exact type of objects to be created is determined at run-time.
+2. A class cannot anticipate the type of objects it needs to create.
