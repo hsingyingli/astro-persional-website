@@ -1,0 +1,60 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /design-pattern.png
+title: Adapter
+category: Design Pattern
+date: 2023-09-24 09:51:42.47+00 
+---
+## Table of Content 
+* [Describe](#describe)
+* [Benefit and Drawback](#benefit-and-drawback)
+* [Use Cases](#use-cases)
+
+## Describe
+The Adapter Pattern is a structural design pattern that allows the interface of one class to be used as another interface. ***<ins>It enables objects with incompatible interfaces to work together</ins>***. In essence, it acts as a bridge between two incompatible interfaces, making them compatible.
+
+### Core Concept
+The adapter wraps one of the objects to hide the complexity of conversion happening behind the scenes.
+
+```python
+class SpecialTarget:
+  def special_operation(self):
+    return 'Special Operation'
+
+class NormalTarget:
+  def operation(self):
+    return 'Normal Operation'
+
+class SpecialAdapter(NormalTarget):
+  def __init__(self, special_target):
+    self.target = special_target
+  
+  # wrap special_target function
+  def operation(self):
+    return self.target.special_operation()
+
+def client_code(target):
+  return target.operation()
+
+if __name__ == '__main__':
+  normal_target = NormalTarget()
+  print(client_code(normal_target)) # print: Normal Operation
+
+  special_target = SpecialTarget()
+  special_adapter = SpecialAdapter(special_target) 
+  print(client_code(special_adapter)) # print: Special Operation
+```
+
+## Benefit and Drawback
+* Benefit
+  1. Compatibility: The Adapter Pattern allows you to integrate existing or third-party code with new code or systems that have different interfaces.
+
+* Drawback
+  1. Complexity: Introducing adapters can add complexity to the code-base, especially if many adapters are needed. It's essential to weigh the benefits against the added complexity.
+
+## Use Cases
+  
+* You need to integrate new and legacy systems that have incompatible interfaces.
+* You want to create a pluggable architecture where different components can be easily swapped without modifying client code.
+* You are working with third-party libraries or APIs that don't align with your application's interface requirements.
+Common examples include adapting different database drivers to a common database interface, converting data formats, or integrating various third-party libraries into your application.
