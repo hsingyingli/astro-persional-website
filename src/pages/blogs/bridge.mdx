@@ -1,0 +1,72 @@
+---
+layout: ../../layouts/BlogLayout.astro 
+src: /design-pattern.png
+title: Builder 
+category: Design Pattern
+date: 2023-09-24 10:51:42.47+00 
+---
+## Table of Content 
+* [Describe](#describe)
+* [Benefit and Drawback](#benefit-and-drawback)
+* [Use Cases](#use-cases)
+
+## Describe
+The Bridge Pattern is a structural design pattern that separates the abstraction (an interface or abstract class) from its implementation. It allows these two aspects to vary independently, making it possible to develop more flexible and maintainable software systems.
+
+### Core Concept
+ The key idea is to ***<ins>decouple an abstraction from its concrete implementations</ins>***, allowing changes in either without affecting the other.
+ ```python
+from abc import ABC, abstractmethod
+
+# Implementor Interface
+class Color(ABC):
+    @abstractmethod
+    def apply_color(self):
+        pass
+
+# Concrete Implementors
+class RedColor(Color):
+    def apply_color(self):
+        return "Red"
+
+class BlueColor(Color):
+    def apply_color(self):
+        return "Blue"
+
+# Abstraction
+class Shape(ABC):
+    def __init__(self, color):
+        self.color = color
+
+    @abstractmethod
+    def draw(self):
+        pass
+
+# Refined Abstractions
+class Circle(Shape):
+    def draw(self):
+        return f"Drawing a Circle in {self.color.apply_color()}"
+
+class Square(Shape):
+    def draw(self):
+        return f"Drawing a Square in {self.color.apply_color()}"
+
+# Usage
+red_circle = Circle(RedColor())
+blue_square = Square(BlueColor())
+
+print(red_circle.draw())   # print: "Drawing a Circle in Red"
+print(blue_square.draw())  # print: "Drawing a Square in Blue"
+ ```
+
+## Benefit and Drawback
+* Benefit
+  1. Separation of Concerns: The Bridge Pattern separates the abstraction from the implementation, promoting a clean separation of concerns. This makes it easier to make changes in one part of the system without affecting the other.
+  2. Extensibility: The Bridge Pattern is especially useful when you have a hierarchy of both abstractions and implementations, making it easier to extend the system in a salable way.
+
+* Drawback
+  1. Complexity: Implementing the Bridge Pattern can introduce additional complexity, especially when there are many abstractions and implementations. It may not be justified for simple systems.
+
+## Use Cases
+* Database Drivers: When developing database connectivity libraries, the Bridge Pattern can be used to separate the high-level query interface (abstraction) from the specific database drivers (implementation).
+* Device Drivers: In embedded systems or hardware programming, the Bridge Pattern can be applied to separate the abstraction of a device's functionality from the underlying hardware details.
